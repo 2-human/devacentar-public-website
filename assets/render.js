@@ -56,6 +56,9 @@
       nav: "Main navigation", lang: "Language", email: "Email: devacentar@gmail.com", viber: "Viber: +381 64 140 3475", whatsapp: "WhatsApp: +381 64 140 3475 (opens in a new tab)" }
   };
   var YEAR = String(new Date().getFullYear());
+  // Room cards as two slides on phones (photo, then the room's text; swipe either way, site.js). Built and tested
+  // 20 Nov 2026, switched off the same day until the operator has the room descriptions. Set true and rebuild to turn on.
+  var ROOM_SLIDES = false;
   // One place for the contact targets (header icons and footer buttons).
   var CONTACT = { email: "mailto:devacentar@gmail.com", viber: "viber://chat?number=%2B381641403475", whatsapp: "https://wa.me/381641403475" };
 
@@ -194,6 +197,7 @@
         return '<div class="group"' + reveal(24, 1, 0.3 + i * 0.12, "spaces") + ">" +
           '<h3 class="font-display text-[#9A4A38] text-xl md:text-[1.4rem] leading-snug mb-4"' + ls + ">" + esc(r.name) + "</h3>" +
           // On phones the card is two slides, photo and text; a swipe either way switches (site.js). Wider screens show the photo only.
+          (ROOM_SLIDES ?
           '<div data-room data-slide="0" class="relative overflow-hidden rounded-[4px] bg-[#EDE5D8] shadow-[0_22px_45px_-32px_rgba(45,40,36,0.55)]" role="group" aria-roledescription="carousel" aria-label="' + esc(r.name) + '">' +
           '<div class="deva-slide" data-panel="0">' +
           pic(IMG.spaces[i % IMG.spaces.length], r.name, "w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]", SIZES.room) +
@@ -204,7 +208,11 @@
           '<button type="button" data-goto="0" aria-pressed="true" aria-label="' + esc(WORDS[C.lang].photo) + '"></button>' +
           '<button type="button" data-goto="1" aria-pressed="false" aria-label="' + esc(WORDS[C.lang].about) + ": " + esc(r.name) + '"></button>' +
           "</div>" +
-          "</div></div>";
+          "</div></div>" :
+          '<div class="relative overflow-hidden rounded-[4px] bg-[#EDE5D8] shadow-[0_22px_45px_-32px_rgba(45,40,36,0.55)]">' +
+          pic(IMG.spaces[i % IMG.spaces.length], r.name, "w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]", SIZES.room) +
+          '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
+          "</div></div>");
       }).join("") +
       "</div></div></section>";
   }
