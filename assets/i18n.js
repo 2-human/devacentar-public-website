@@ -1,4 +1,5 @@
-/* Centar DEVA copy (EN + SR), extracted verbatim from the Base44 build 2026-11-20 (somatic-space-flow.base44.app, bundle index-B8zNfPyD.js). */
+/* Centar DEVA copy (EN + SR), from the Base44 build 2026-11-20 (somatic-space-flow.base44.app, bundle index-B8zNfPyD.js).
+ * Since 20 Nov 2026 the only name is "Centar DEVA" (operator: "it's not a hub"); every "DEVA Hub" was rewritten. */
 window.DEVA_I18N = {
  "en": {
   "nav": {
@@ -9,17 +10,17 @@ window.DEVA_I18N = {
    "contact": "Contact"
   },
   "hero": {
-   "brand": "DEVA Hub",
+   "brand": "Centar DEVA",
    "title1": "Therapy spaces for",
    "title2": "professional practice",
-   "subtitle": "DEVA Hub provides dedicated therapy and counseling rooms for practitioners, psychotherapists, and small therapeutic groups in Novi Beograd.",
+   "subtitle": "Centar DEVA provides dedicated therapy and counseling rooms for practitioners, psychotherapists, and small therapeutic groups in Novi Beograd.",
    "cta": "View the Spaces"
   },
   "philosophy": {
-   "label": "DEVA Hub",
+   "label": "Centar DEVA",
    "title1": "A space that",
    "title2": "holds the encounter",
-   "intro": "The DEVA Hub space is primarily intended for psychotherapy and counseling work, in a calm setting made for focused, undisturbed sessions."
+   "intro": "The Centar DEVA space is primarily intended for psychotherapy and counseling work, in a calm setting made for focused, undisturbed sessions."
   },
   "spaces": {
    "label": "The Spaces",
@@ -36,7 +37,7 @@ window.DEVA_I18N = {
     },
     {
      "title": "Open to practitioners",
-     "text": "DEVA Hub also welcomes other professionals who work in direct contact with clients and need a pleasant, comfortable and equipped space for individual sessions and work with smaller groups."
+     "text": "Centar DEVA also welcomes other professionals who work in direct contact with clients and need a pleasant, comfortable and equipped space for individual sessions and work with smaller groups."
     }
    ],
    "rooms": [
@@ -134,11 +135,11 @@ window.DEVA_I18N = {
   "termsContent": {
    "title": "Terms of Use",
    "updated": "Last updated: 23.8.2026.",
-   "intro": "Welcome to the DEVA Hub website, a therapy space operated by Centar DEVA. By using this website and booking a space, you accept the following terms of use.",
+   "intro": "Welcome to the website of Centar DEVA, a therapy space in Novi Beograd. By using this website and booking a space, you accept the following terms of use.",
    "sections": [
     {
      "heading": "1. Purpose of the space",
-     "body": "DEVA Hub is a space intended for psychotherapeutic, counseling, educational, and other professional work in the field of mental health and personal development.\n\nThe space may be used for:\n\n- individual therapy sessions,\n- work with couples and families,\n- small therapy and educational groups,\n- supervision,\n- workshops and professional meetings.\n\nUsers are obliged to use the space in accordance with its purpose and with respect for other tenants."
+     "body": "Centar DEVA is a space intended for psychotherapeutic, counseling, educational, and other professional work in the field of mental health and personal development.\n\nThe space may be used for:\n\n- individual therapy sessions,\n- work with couples and families,\n- small therapy and educational groups,\n- supervision,\n- workshops and professional meetings.\n\nUsers are obliged to use the space in accordance with its purpose and with respect for other tenants."
     },
     {
      "heading": "2. Reservations",
@@ -177,7 +178,7 @@ window.DEVA_I18N = {
   "privacyContent": {
    "title": "Privacy Policy",
    "updated": "Last updated: 23.8.2026.",
-   "intro": "Centar DEVA, operator of DEVA Hub, respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect your information.",
+   "intro": "Centar DEVA respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect your information.",
    "sections": [
     {
      "heading": "1. Data we collect",
@@ -235,17 +236,17 @@ window.DEVA_I18N = {
    "contact": "Kontakt"
   },
   "hero": {
-   "brand": "DEVA Hub",
+   "brand": "Centar DEVA",
    "title1": "Terapijski prostori za",
    "title2": "profesionalnu praksu",
-   "subtitle": "DEVA Hub pruža namenske terapijske i savetodavne prostorije za praktičare, psihoterapeute i male terapijske grupe u Novom Beogradu.",
+   "subtitle": "Centar DEVA pruža namenske terapijske i savetodavne prostorije za praktičare, psihoterapeute i male terapijske grupe u Novom Beogradu.",
    "cta": "Pogledajte prostore"
   },
   "philosophy": {
-   "label": "DEVA Hub",
+   "label": "Centar DEVA",
    "title1": "Prostor koji",
    "title2": "čuva susret",
-   "intro": "Prostor DEVA Hub prvenstveno je namenjen psihoterapijskoj i savetodavnoj delatnosti, u mirnom okruženju stvorenom za nesmetan i posvećen rad."
+   "intro": "Prostor Centra DEVA prvenstveno je namenjen psihoterapijskoj i savetodavnoj delatnosti, u mirnom okruženju stvorenom za nesmetan i posvećen rad."
   },
   "spaces": {
    "label": "Prostori",
@@ -262,7 +263,7 @@ window.DEVA_I18N = {
     },
     {
      "title": "Otvoren za praktičare",
-     "text": "DEVA Hub je otvoren i za druge stručnjake koji rade u neposrednom kontaktu sa klijentima i traže prijatan, udoban i opremljen prostor za individualne susrete i rad sa manjim grupama."
+     "text": "Centar DEVA je otvoren i za druge stručnjake koji rade u neposrednom kontaktu sa klijentima i traže prijatan, udoban i opremljen prostor za individualne susrete i rad sa manjim grupama."
     }
    ],
    "rooms": [
@@ -360,11 +361,11 @@ window.DEVA_I18N = {
   "termsContent": {
    "title": "Uslovi korišćenja",
    "updated": "Poslednje ažuriranje: 23.8.2026.",
-   "intro": "Dobrodošli na sajt DEVA Hub, terapijski prostor koji vodi Centar DEVA. Korišćenjem ovog sajta i rezervacijom prostora prihvatate sledeće uslove korišćenja.",
+   "intro": "Dobrodošli na sajt Centra DEVA, terapijskog prostora u Novom Beogradu. Korišćenjem ovog sajta i rezervacijom prostora prihvatate sledeće uslove korišćenja.",
    "sections": [
     {
      "heading": "1. Namena prostora",
-     "body": "DEVA Hub je prostor namenjen psihoterapijskom, savetodavnom, edukativnom i drugom stručnom radu u oblasti mentalnog zdravlja i ličnog razvoja.\n\nProstor se može koristiti za:\n\n- individualne terapijske sesije,\n- rad sa parovima i porodicama,\n- male terapijske i edukativne grupe,\n- superviziju,\n- radionice i stručne sastanke.\n\nKorisnici su dužni da prostor koriste u skladu sa njegovom namenom i uz poštovanje drugih zakupaca."
+     "body": "Centar DEVA je prostor namenjen psihoterapijskom, savetodavnom, edukativnom i drugom stručnom radu u oblasti mentalnog zdravlja i ličnog razvoja.\n\nProstor se može koristiti za:\n\n- individualne terapijske sesije,\n- rad sa parovima i porodicama,\n- male terapijske i edukativne grupe,\n- superviziju,\n- radionice i stručne sastanke.\n\nKorisnici su dužni da prostor koriste u skladu sa njegovom namenom i uz poštovanje drugih zakupaca."
     },
     {
      "heading": "2. Rezervacije",
@@ -403,7 +404,7 @@ window.DEVA_I18N = {
   "privacyContent": {
    "title": "Politika privatnosti",
    "updated": "Poslednje ažuriranje: 23.8.2026.",
-   "intro": "Centar DEVA, kao voditelj prostora DEVA Hub, poštuje vašu privatnost i posvećen je zaštiti vaših ličnih podataka. Ova Politika privatnosti objašnjava kako prikupljamo, koristimo i štitimo vaše podatke.",
+   "intro": "Centar DEVA poštuje vašu privatnost i posvećen je zaštiti vaših ličnih podataka. Ova Politika privatnosti objašnjava kako prikupljamo, koristimo i štitimo vaše podatke.",
    "sections": [
     {
      "heading": "1. Podaci koje prikupljamo",

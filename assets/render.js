@@ -49,8 +49,8 @@
   var SIZES = { hero: "100vw", philosophy: "(min-width: 1024px) 50vw, 100vw", room: "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" };
   // Words the Base44 copy does not carry: image descriptions, the skip link, the map button.
   var WORDS = {
-    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora DEVA Hub", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori" },
-    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the DEVA Hub therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close" }
+    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora Centra DEVA", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori" },
+    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the Centar DEVA therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close" }
   };
   var YEAR = String(new Date().getFullYear());
 
@@ -119,7 +119,7 @@
       '<div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65"></div>' +
       "</div>" +
       '<div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center opacity-100">' +
-      // The "DEVA Hub" label above the heading was dropped on 20 Nov 2026 (operator); hero.brand still names the site in titles.
+      // No label above the heading (dropped 20 Nov 2026, operator); hero.brand ("Centar DEVA") names the site in titles.
       '<h1 class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
       esc(t.hero.title1) + " <br>" + esc(t.hero.title2) + "</h1>" +
       '<a' + go("spaces") + ' data-intro="20,1,0.7" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</a>" +
