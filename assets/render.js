@@ -14,15 +14,16 @@
   // lucide-react v0.475.0 icons, as rendered by the original.
   var icon = function (name, size, cls, body) {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size +
-      '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-' +
+      '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" class="lucide lucide-' +
       name + (cls ? " " + cls : "") + '">' + body + "</svg>";
   };
   var brand = function (name, size, cls, d) {
     return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size +
-      '" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="brand-' + name + (cls ? " " + cls : "") + '"><path d="' + d + '"></path></svg>';
+      '" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="brand-' + name + (cls ? " " + cls : "") + '"><path d="' + d + '"></path></svg>';
   };
   var ICONS = {
     x: function (size, cls) { return icon("x", size, cls, '<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>'); },
+    menu: function (size, cls) { return icon("menu", size, cls, '<line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line>'); },
     mapPin: function (size, cls) { return icon("map-pin", size, cls, '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle>'); },
     mail: function (size, cls) { return icon("mail", size, cls, '<rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>'); },
     phone: function (size, cls) { return icon("phone", size, cls, '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>'); },
@@ -49,10 +50,14 @@
   var SIZES = { hero: "100vw", philosophy: "(min-width: 1024px) 50vw, 100vw", room: "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" };
   // Words the Base44 copy does not carry: image descriptions, the skip link, the map button.
   var WORDS = {
-    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora Centra DEVA", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori", photo: "Fotografija", about: "Opis" },
-    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the Centar DEVA therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close", photo: "Photo", about: "Description" }
+    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora Centra DEVA", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori", photo: "Fotografija", about: "Opis",
+      nav: "Glavna navigacija", lang: "Jezik", email: "Email: devacentar@gmail.com", viber: "Viber: +381 64 140 3475", whatsapp: "WhatsApp: +381 64 140 3475 (otvara se u novoj kartici)" },
+    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the Centar DEVA therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close", photo: "Photo", about: "Description",
+      nav: "Main navigation", lang: "Language", email: "Email: devacentar@gmail.com", viber: "Viber: +381 64 140 3475", whatsapp: "WhatsApp: +381 64 140 3475 (opens in a new tab)" }
   };
   var YEAR = String(new Date().getFullYear());
+  // One place for the contact targets (header icons and footer buttons).
+  var CONTACT = { email: "mailto:devacentar@gmail.com", viber: "viber://chat?number=%2B381641403475", whatsapp: "https://wa.me/381641403475" };
 
   // One folder per language and page. dict key: en / sr; slug: en / rs (Serbian is the default, the root forwards to rs/).
   var ROUTES = {
@@ -92,23 +97,38 @@
     var other = lang === "en" ? "sr" : "en", hero = C.page === "home" || C.page === "contact";
     // Over the home hero and the dark contact page the bar starts light; on the light pages it is dark from the top.
     var tone = function (top, scrolled) { return ' data-tone-top="' + (hero ? top : scrolled) + '" data-tone-scrolled="' + scrolled + '"'; };
-    var btn = "font-body text-[11px] tracking-[0.2em] uppercase transition-colors duration-500 hover:text-[#B05A47] ";
-    return '<nav data-nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out bg-transparent">' +
+    var W = WORDS[lang];
+    // Contact icons beside the menu button: 36x36 targets, the visible icon decorative, the name on the link.
+    var icon = function (k, svg) {
+      return '<li><a href="' + CONTACT[k] + '"' + (k === "whatsapp" ? ' target="_blank" rel="noopener noreferrer"' : "") + ' aria-label="' + esc(W[k]) + '" title="' + esc(W[k]) + '"' +
+        tone("text-[#F7F5F0]/80", "text-[#2D2824]/70") + ' class="deva-nav-icon transition-colors duration-500 hover:text-[#B05A47] ' + (hero ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + svg + "</a></li>";
+    };
+    var LANGS = [["sr", "sr-Latn", "Srpski"], ["en", "en", "English"]];
+    return '<nav data-nav aria-label="' + esc(W.nav) + '" class="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out bg-transparent">' +
       '<div class="max-w-[1400px] mx-auto flex items-center justify-between px-6 md:px-10 py-5 opacity-100">' +
       '<a href="' + href("home") + '"' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="font-display text-lg tracking-[0.06em] transition-colors duration-500 ' + (hero ? "text-[#F7F5F0]" : "text-[#2D2824]") + '">Centar DEVA</a>' +
-      '<div class="flex items-center gap-6">' +
-      '<a href="' + href(C.page, other) + '" hreflang="' + other + '" data-lang-toggle' + tone("text-[#F7F5F0]/80", "text-[#2D2824]/70") + ' class="' + btn + (hero ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + (lang === "en" ? "SR" : "EN") + "</a>" +
-      '<button data-menu-open' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="' + btn + (hero ? "text-[#F7F5F0]" : "text-[#2D2824]") + '">' + esc(t.nav.menu) + "</button>" +
+      '<div class="flex items-center deva-nav-right">' +
+      '<ul class="deva-nav-icons">' + icon("whatsapp", ICONS.whatsapp(18)) + icon("viber", ICONS.viber(18)) + icon("email", ICONS.mail(18)) + "</ul>" +
+      // the hamburger: icon only, named by aria-label; says whether the menu is open
+      '<button type="button" data-menu-open aria-expanded="false" aria-controls="site-menu" aria-haspopup="dialog" aria-label="' + esc(t.nav.menu) + '"' +
+      tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="deva-nav-icon deva-burger transition-colors duration-500 hover:text-[#B05A47] ' + (hero ? "text-[#F7F5F0]" : "text-[#2D2824]") + '">' + ICONS.menu(24) + "</button>" +
       "</div></div></nav>" +
-      '<div data-menu hidden class="fixed inset-0 z-[100] bg-[#F7F5F0]/95 backdrop-blur-xl flex flex-col items-center justify-center">' +
-      '<div class="absolute top-6 right-6 md:right-10 flex items-center gap-6">' +
-      '<a href="' + href(C.page, other) + '" hreflang="' + other + '" class="font-body text-sm tracking-widest uppercase text-[#2D2824] hover:text-[#9A4A38] transition-colors">' + (lang === "en" ? "SR" : "EN") + "</a>" +
-      '<button data-menu-close aria-label="Close" class="text-[#2D2824] hover:text-[#9A4A38] transition-colors">' + ICONS.x(24) + "</button>" +
+      '<div data-menu id="site-menu" role="dialog" aria-modal="true" aria-label="' + esc(t.nav.menu) + '" hidden class="fixed inset-0 z-[100] bg-[#F7F5F0]/95 backdrop-blur-xl flex flex-col items-center justify-center">' +
+      '<div class="absolute top-6 right-6 md:right-10 flex items-center">' +
+      '<button type="button" data-menu-close aria-label="' + esc(W.close) + '" class="deva-nav-icon text-[#2D2824] hover:text-[#9A4A38] transition-colors">' + ICONS.x(24) + "</button>" +
       "</div>" +
       '<div class="flex flex-col items-center gap-10">' +
       ["spaces", "membership", "contact"].map(function (k, i) {
         return '<a' + go(k) + ' data-menu-item data-delay="' + i * 0.08 + '" class="font-display text-4xl md:text-5xl text-[#2D2824] hover:text-[#9A4A38] transition-colors duration-500 tracking-tight"' + (C.page === k ? ' aria-current="page"' : "") + ">" + esc(t.nav[k]) + "</a>";
       }).join("") +
+      "</div>" +
+      // language selector: both languages named in their own language; the current one is marked, the other links to this page in it
+      '<div class="deva-langs" role="group" aria-label="' + esc(W.lang) + '">' +
+      LANGS.map(function (l) {
+        return l[0] === lang
+          ? '<span class="deva-lang deva-lang-current" lang="' + l[1] + '" aria-current="true">' + l[2] + "</span>"
+          : '<a href="' + href(C.page, l[0]) + '" hreflang="' + l[1] + '" lang="' + l[1] + '" class="deva-lang">' + l[2] + "</a>";
+      }).join('<span class="deva-lang-sep" aria-hidden="true">·</span>') +
       "</div></div>";
   }
 
@@ -274,9 +294,9 @@
       '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.contact) + "</p>" +
       "<" + h + ' class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + (t.footer.title2 ? " <br>" + esc(t.footer.title2) : "") + "</" + h + ">" +
       '<div class="deva-contact">' +
-      '<a href="mailto:devacentar@gmail.com" class="deva-contact-btn">' + ICONS.mail(20, "deva-contact-icon") + "<span>" + esc(t.footer.email) + "</span></a>" +
-      '<a href="viber://chat?number=%2B381641403475" class="deva-contact-btn">' + ICONS.viber(20, "deva-contact-icon") + "<span>" + esc(t.footer.viber) + "</span></a>" +
-      '<a href="https://wa.me/381641403475" target="_blank" rel="noopener noreferrer" class="deva-contact-btn">' + ICONS.whatsapp(20, "deva-contact-icon") + "<span>" + esc(t.footer.whatsapp) + "</span></a>" +
+      '<a href="' + CONTACT.email + '" class="deva-contact-btn">' + ICONS.mail(20, "deva-contact-icon") + "<span>" + esc(t.footer.email) + "</span></a>" +
+      '<a href="' + CONTACT.viber + '" class="deva-contact-btn">' + ICONS.viber(20, "deva-contact-icon") + "<span>" + esc(t.footer.viber) + "</span></a>" +
+      '<a href="' + CONTACT.whatsapp + '" target="_blank" rel="noopener noreferrer" class="deva-contact-btn">' + ICONS.whatsapp(20, "deva-contact-icon") + "<span>" + esc(t.footer.whatsapp) + "</span></a>" +
       "</div></div></div></div>" +
       '<div class="mt-20 pt-8 border-t border-[#F7F5F0]/10 flex flex-col sm:flex-row items-center justify-between gap-4">' +
       '<p class="font-body text-sm text-[#F7F5F0]/40">' + esc(t.footer.copyright.replace(/\d{4}/, YEAR)) + "</p>" +

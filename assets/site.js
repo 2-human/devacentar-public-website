@@ -25,9 +25,13 @@
   };
   var parse = function (v) { return v.split(","); };
   var behavior = REDUCE ? "auto" : "smooth";
+  // Scroll to a section and move keyboard focus there too, so the next Tab continues from it.
   var scrollTo = function (sel) {
     var el = document.querySelector(sel);
-    if (el) el.scrollIntoView({ behavior: behavior });
+    if (!el) return;
+    el.scrollIntoView({ behavior: behavior });
+    if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+    el.focus({ preventScroll: true });
   };
 
   function setupReveals() {
@@ -66,9 +70,16 @@
     if (px && !REDUCE) px.style.transform = "translateY(" + window.scrollY * 0.3 + "px)";
   }
 
+  // The menu is a dialog: the Menu button says whether it is open, focus goes in and stays in, and comes back on close.
+  var menuOpener = null;
   function openMenu() {
     var m = root.querySelector("[data-menu]");
+    menuOpener = root.querySelector("[data-menu-open]");
+    menuOpener.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
     m.hidden = false;
+    var first = m.querySelector("[data-menu-item]");
+    setTimeout(function () { if (first) first.focus(); }, REDUCE ? 0 : 60);
     hide(m, 0);
     requestAnimationFrame(function () { requestAnimationFrame(function () { animate(m, 0, 0.5, 0); }); });
     m.querySelectorAll("[data-menu-item]").forEach(function (b) {
@@ -76,8 +87,12 @@
       requestAnimationFrame(function () { requestAnimationFrame(function () { animate(b, 20, 0.6, +b.dataset.delay); }); });
     });
   }
-  function closeMenu() {
+  function closeMenu(keepFocus) {
     var m = root.querySelector("[data-menu]");
+    var b = root.querySelector("[data-menu-open]");
+    b.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    if (!keepFocus && b) b.focus();
     m.style.transition = REDUCE ? "none" : "opacity 0.5s " + EASE;
     m.style.opacity = "0";
     setTimeout(function () { m.hidden = true; }, REDUCE ? 0 : 500);
@@ -170,7 +185,7 @@
     else if (t.hasAttribute("data-menu-close")) closeMenu();
     else if (t.hasAttribute("data-scroll-to")) {
       e.preventDefault();
-      if (t.hasAttribute("data-menu-item")) closeMenu();
+      if (t.hasAttribute("data-menu-item")) closeMenu(true); // focus goes to the section instead
       scrollTo(t.dataset.scrollTo);
     } else if (t.hasAttribute("data-scroll-top")) window.scrollTo({ top: 0, behavior: behavior });
     else if (t.hasAttribute("data-modal-open")) openModal(t.dataset.modalOpen, t);
@@ -179,8 +194,9 @@
     else if (t.hasAttribute("data-map")) loadMap(t);
   });
   document.addEventListener("keydown", function (e) {
-    var open = root.querySelector("[data-modal]:not([hidden])");
+    var open = root.querySelector("[data-modal]:not([hidden])") || root.querySelector("[data-menu]:not([hidden])");
     if (e.key === "Escape") {
+      if (open && open.hasAttribute("data-menu")) { closeMenu(); return; }
       if (open) closeModal(open);
       else if (!root.querySelector("[data-menu]").hidden) closeMenu();
     } else if (e.key === "Tab" && open) { // keep focus inside the open dialog
