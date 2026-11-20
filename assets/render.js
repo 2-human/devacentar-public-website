@@ -2,8 +2,8 @@
  * Centar DEVA — page templates.
  * Ported 1:1 from the Base44 React build (somatic-space-flow.base44.app, 2026-10-03; re-synced 2026-11-20):
  * same markup, same Tailwind class strings (styled by the original compiled app.css).
- * Used twice: by tools/build-website.mjs to prerender index.html (EN), and in the
- * browser by site.js to re-render on language switch.
+ * Used by tools/build-website.mjs to prerender every page: /rs/ (Serbian, default) and /en/,
+ * each with home, spaces, membership, contact, privacy and terms (ROUTES below).
  * Elements with data-reveal animate in (see site.js) — the framer-motion equivalents.
  */
 (function (root) {
@@ -38,6 +38,17 @@
     spaces: ["assets/img/space-1.jpg", "assets/img/space-2.jpg", "assets/img/space-3.jpg"]
   };
 
+  // One folder per language and page. dict key: en / sr; slug: en / rs (Serbian is the default, the root forwards to rs/).
+  var ROUTES = {
+    sr: { slug: "rs", home: "", spaces: "prostori/", membership: "clanarine/", contact: "kontakt/", privacy: "privatnost/", terms: "uslovi/" },
+    en: { slug: "en", home: "", spaces: "spaces/", membership: "membership/", contact: "contact/", privacy: "privacy/", terms: "terms/" }
+  };
+  var PAGES = ["home", "spaces", "membership", "contact", "privacy", "terms"];
+  var path = function (lang, page) { return ROUTES[lang].slug + "/" + ROUTES[lang][page]; };
+  var C; // the page being rendered: { lang, page, base }
+  var href = function (page, lang) { return C.base + path(lang || C.lang, page); };
+  var img = function (src) { return C.base + src; };
+
   // data-reveal="y,duration,delay[,group]" — group ties several elements to one in-view trigger.
   var reveal = function (y, dur, delay, group) {
     return ' data-reveal="' + y + "," + dur + "," + (delay || 0) + (group ? "," + group : "") + '"';
@@ -45,23 +56,25 @@
   var ls = ' style="letter-spacing: -0.02em;"';
 
   function nav(t, lang) {
-    var tone = function (top, scrolled) { return ' data-tone-top="' + top + '" data-tone-scrolled="' + scrolled + '"'; };
+    var other = lang === "en" ? "sr" : "en", hero = C.page === "home" || C.page === "contact";
+    // Over the home hero and the dark contact page the bar starts light; on the light pages it is dark from the top.
+    var tone = function (top, scrolled) { return ' data-tone-top="' + (hero ? top : scrolled) + '" data-tone-scrolled="' + scrolled + '"'; };
     var btn = "font-body text-[11px] tracking-[0.2em] uppercase transition-colors duration-500 hover:text-[#B05A47] ";
     return '<nav data-nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out bg-transparent">' +
       '<div class="max-w-[1400px] mx-auto flex items-center justify-between px-6 md:px-10 py-5 opacity-100">' +
-      '<a href="#"' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="font-display text-lg tracking-[0.06em] transition-colors duration-500 text-[#F7F5F0]">Centar DEVA</a>' +
+      '<a href="' + href("home") + '"' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="font-display text-lg tracking-[0.06em] transition-colors duration-500 ' + (hero ? "text-[#F7F5F0]" : "text-[#2D2824]") + '">Centar DEVA</a>' +
       '<div class="flex items-center gap-6">' +
-      '<button data-lang-toggle' + tone("text-[#F7F5F0]/80", "text-[#2D2824]/70") + ' class="' + btn + 'text-[#F7F5F0]/80">' + (lang === "en" ? "SR" : "EN") + "</button>" +
-      '<button data-menu-open' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="' + btn + 'text-[#F7F5F0]">' + esc(t.nav.menu) + "</button>" +
+      '<a href="' + href(C.page, other) + '" hreflang="' + other + '" data-lang-toggle' + tone("text-[#F7F5F0]/80", "text-[#2D2824]/70") + ' class="' + btn + (hero ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + (lang === "en" ? "SR" : "EN") + "</a>" +
+      '<button data-menu-open' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="' + btn + (hero ? "text-[#F7F5F0]" : "text-[#2D2824]") + '">' + esc(t.nav.menu) + "</button>" +
       "</div></div></nav>" +
       '<div data-menu hidden class="fixed inset-0 z-[100] bg-[#F7F5F0]/95 backdrop-blur-xl flex flex-col items-center justify-center">' +
       '<div class="absolute top-6 right-6 md:right-10 flex items-center gap-6">' +
-      '<button data-lang-toggle class="font-body text-sm tracking-widest uppercase text-[#2D2824] hover:text-[#9A4A38] transition-colors">' + (lang === "en" ? "SR" : "EN") + "</button>" +
+      '<a href="' + href(C.page, other) + '" hreflang="' + other + '" class="font-body text-sm tracking-widest uppercase text-[#2D2824] hover:text-[#9A4A38] transition-colors">' + (lang === "en" ? "SR" : "EN") + "</a>" +
       '<button data-menu-close aria-label="Close" class="text-[#2D2824] hover:text-[#9A4A38] transition-colors">' + ICONS.x(24) + "</button>" +
       "</div>" +
       '<div class="flex flex-col items-center gap-10">' +
-      [["spaces", "#spaces"], ["membership", "#membership"], ["contact", "#contact"]].map(function (l, i) {
-        return '<button data-menu-item data-delay="' + i * 0.08 + '" data-scroll-to="' + l[1] + '" class="font-display text-4xl md:text-5xl text-[#2D2824] hover:text-[#9A4A38] transition-colors duration-500 tracking-tight">' + esc(t.nav[l[0]]) + "</button>";
+      ["spaces", "membership", "contact"].map(function (k, i) {
+        return '<a href="' + href(k) + '" data-menu-item data-delay="' + i * 0.08 + '" class="font-display text-4xl md:text-5xl text-[#2D2824] hover:text-[#9A4A38] transition-colors duration-500 tracking-tight"' + (C.page === k ? ' aria-current="page"' : "") + ">" + esc(t.nav[k]) + "</a>";
       }).join("") +
       "</div></div>";
   }
@@ -69,22 +82,26 @@
   function hero(t) {
     return '<section class="relative h-screen w-full overflow-hidden">' +
       '<div data-parallax class="absolute inset-0 will-change-transform" style="transform: translateY(0px);">' +
-      '<img src="' + IMG.hero + '" alt="Sunlit street scene near the therapy space" class="w-full h-[120%] object-cover">' +
+      '<img src="' + img(IMG.hero) + '" alt="Sunlit street scene near the therapy space" class="w-full h-[120%] object-cover">' +
       '<div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65"></div>' +
       "</div>" +
       '<div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center opacity-100">' +
       '<p data-intro="20,1,0" class="mb-5 font-body tracking-[0.3em] uppercase text-[11px] text-[#F7F5F0]/70">' + esc(t.hero.brand) + "</p>" +
       '<h1 data-intro="30,1.2,0" class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
       esc(t.hero.title1) + "<br>" + esc(t.hero.title2) + "</h1>" +
-      '<button data-intro="20,1,0.7" data-scroll-to="#spaces" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</button>" +
+      '<a href="' + href("spaces") + '" data-intro="20,1,0.7" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</a>" +
       "</div></section>";
   }
 
   // Section label + heading, shared by philosophy, spaces and membership in the 2026-11 build.
-  function heading(label, title1, title2) {
+  function heading(label, title1, title2, h) {
+    h = h || "h2";
     return '<p class="font-body text-[#9A4A38]/80 text-[11px] tracking-[0.28em] uppercase mb-5">' + esc(label) + "</p>" +
-      '<h2 class="font-display text-[#9A4A38] text-3xl md:text-[2.35rem] lg:text-[2.9rem] leading-[1.14]"' + ls + ">" + esc(title1) + (title2 ? "<br>" + esc(title2) : "") + "</h2>";
+      "<" + h + ' class="font-display text-[#9A4A38] text-3xl md:text-[2.35rem] lg:text-[2.9rem] leading-[1.14]"' + ls + ">" + esc(title1) + (title2 ? "<br>" + esc(title2) : "") + "</" + h + ">";
   }
+  // On a section's own page the section starts below the fixed bar and its heading is the page's h1.
+  var own = function (page) { return C.page === page; };
+  var top = function (page) { return own(page) ? " deva-page-top" : ""; };
 
   function philosophy(t) {
     var P = t.philosophy;
@@ -94,16 +111,16 @@
       "<div" + reveal(30, 1, 0, "philosophy") + '><div class="">' + heading(P.label, P.title1, P.title2) + "</div>" +
       '<p class="mt-8 font-body text-[#2D2824]/70 text-lg leading-relaxed max-w-md">' + esc(P.intro) + "</p></div>" +
       '<div class="relative overflow-hidden rounded-[3px]"' + reveal(30, 1, 0.2, "philosophy") + ">" +
-      '<img src="' + IMG.philosophy + '" alt="Warm interior of the DEVA Hub therapy space" class="w-full h-[340px] md:h-[440px] lg:h-[500px] object-cover">' +
+      '<img src="' + img(IMG.philosophy) + '" alt="Warm interior of the DEVA Hub therapy space" class="w-full h-[340px] md:h-[440px] lg:h-[500px] object-cover">' +
       '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
       "</div></div></div></section>";
   }
 
   function spaces(t) {
     var S = t.spaces;
-    return '<section id="spaces" class="border-t border-[#E7DFD1] bg-[#F4EFE6]">' +
+    return '<section id="spaces" class="border-t border-[#E7DFD1] bg-[#F4EFE6]' + top("spaces") + '">' +
       '<div data-reveal-group="spaces" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32">' +
-      "<div" + reveal(26, 1, 0, "spaces") + '><div class="">' + heading(S.label, S.title1, S.title2) + "</div></div>" +
+      "<div" + reveal(26, 1, 0, "spaces") + '><div class="">' + heading(S.label, S.title1, S.title2, own("spaces") ? "h1" : "h2") + "</div></div>" +
       '<div class="mt-14 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-0 border-t border-[#2D2824]/10 pt-10 md:pt-12"' + reveal(20, 1, 0.2, "spaces") + ">" +
       S.points.map(function (pt, i) {
         return '<div class="' + (i === 0 ? "md:px-8 md:pl-0" : "md:px-8 md:border-l md:border-[#2D2824]/10") + '">' +
@@ -116,7 +133,7 @@
         return '<div class="group"' + reveal(24, 1, 0.3 + i * 0.12, "spaces") + ">" +
           '<h3 class="font-display text-[#9A4A38] text-xl md:text-[1.4rem] leading-snug mb-4"' + ls + ">" + esc(r.name) + "</h3>" +
           '<div class="relative overflow-hidden rounded-[4px] bg-[#EDE5D8] shadow-[0_22px_45px_-32px_rgba(45,40,36,0.55)]">' +
-          '<img src="' + IMG.spaces[i % IMG.spaces.length] + '" alt="' + esc(r.name) + '" class="w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]">' +
+          '<img src="' + img(IMG.spaces[i % IMG.spaces.length]) + '" alt="' + esc(r.name) + '" class="w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]">' +
           '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
           "</div></div>";
       }).join("") +
@@ -125,9 +142,9 @@
 
   function membership(t) {
     var M = t.membership;
-    return '<section id="membership" class="border-t border-[#EBE8E3] bg-[#F7F5F0]">' +
+    return '<section id="membership" class="border-t border-[#EBE8E3] bg-[#F7F5F0]' + top("membership") + '">' +
       '<div data-reveal-group="membership" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32">' +
-      '<div class="mb-12 md:mb-14"' + reveal(30, 1, 0, "membership") + '><div class="text-center">' + heading(M.label, M.title) + "</div></div>" +
+      '<div class="mb-12 md:mb-14"' + reveal(30, 1, 0, "membership") + '><div class="text-center">' + heading(M.label, M.title, "", own("membership") ? "h1" : "h2") + "</div></div>" +
       '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto md:grid-rows-[auto_auto_auto_auto_auto_1fr_auto]">' +
       M.tiers.map(function (tier, a) {
         var dark = a === 1;
@@ -143,7 +160,7 @@
               '<span class="font-body text-[15px] leading-snug ' + (dark ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + esc(l) + "</span></li>";
           }).join("") +
           "</ul>" +
-          '<a href="#contact" data-scroll-to="#contact" class="mt-8 w-full py-3.5 rounded-full font-body text-[11px] tracking-[0.2em] uppercase text-center transition-colors duration-500 block ' +
+          '<a href="' + href("contact") + '" class="mt-8 w-full py-3.5 rounded-full font-body text-[11px] tracking-[0.2em] uppercase text-center transition-colors duration-500 block ' +
           (dark ? "border border-[#F7F5F0]/30 text-[#F7F5F0] hover:border-[#F7F5F0]/60" : "border border-[#2D2824]/20 text-[#2D2824] hover:bg-[#2D2824] hover:text-[#F7F5F0] hover:border-[#2D2824]") +
           '">' + esc(tier.cta) + "</a>" +
           "</div>";
@@ -151,28 +168,25 @@
       "</div></div></section>";
   }
 
-  function modal(name, c) {
-    return '<div data-modal="' + name + '" hidden class="fixed inset-0 z-[200] bg-[#262A22]/80 backdrop-blur-sm flex items-start md:items-center justify-center p-4 md:p-8 overflow-y-auto">' +
-      '<div data-modal-panel class="bg-[#F5F4EE] text-[#262A22] rounded-[6px] w-full max-w-2xl my-8 relative">' +
-      '<div class="sticky top-0 bg-[#F5F4EE] flex items-center justify-between px-8 md:px-10 pt-8 pb-4 border-b border-[#DDE0D5] rounded-t-[6px]">' +
-      '<div><p class="font-body text-[#5A7048] text-xs tracking-widest uppercase mb-1">' + esc(c.updated) + "</p>" +
-      '<h2 class="font-display text-2xl md:text-3xl"' + ls + ">" + esc(c.title) + "</h2></div>" +
-      '<button data-modal-close aria-label="Close" class="text-[#262A22] hover:text-[#5A7048] transition-colors duration-500 flex-shrink-0 ml-4">' + ICONS.x(22) + "</button>" +
-      "</div>" +
-      '<div class="px-8 md:px-10 py-8 max-h-[60vh] overflow-y-auto">' +
+  // Privacy and terms, as pages (they were dialogs in the Base44 build); same type and colours as its dialog.
+  function doc(c) {
+    return '<main class="bg-[#F5F4EE] text-[#262A22] deva-page-top">' +
+      '<div class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32"><div class="max-w-2xl">' +
+      '<p class="font-body text-[#5A7048] text-xs tracking-widest uppercase mb-1">' + esc(c.updated) + "</p>" +
+      '<h1 class="font-display text-2xl md:text-3xl mb-8"' + ls + ">" + esc(c.title) + "</h1>" +
       '<p class="font-body text-sm md:text-base text-[#262A22]/70 mb-8 leading-relaxed">' + esc(c.intro) + "</p>" +
       '<div class="space-y-6">' +
       c.sections.map(function (s) {
-        return '<div><h3 class="font-display text-lg mb-2 text-[#262A22]">' + esc(s.heading) + "</h3>" +
+        return '<div><h2 class="font-display text-lg mb-2 text-[#262A22]">' + esc(s.heading) + "</h2>" +
           '<p class="font-body text-sm md:text-base text-[#262A22]/70 leading-relaxed whitespace-pre-line">' + esc(s.body) + "</p></div>";
       }).join("") +
-      "</div></div></div></div>";
+      "</div></div></div></main>";
   }
 
   function footer(t) {
-    var link = "font-body text-base text-[#F7F5F0]/75 group-hover:text-[#F7F5F0] transition-colors duration-500";
     var small = "font-body text-sm text-[#F7F5F0]/40 hover:text-[#F7F5F0]/70 transition-colors duration-500";
-    return '<footer id="contact" class="bg-[#2D2824] text-[#F7F5F0]">' +
+    var h = own("contact") ? "h1" : "h2";
+    return '<footer id="contact" class="bg-[#2D2824] text-[#F7F5F0]' + top("contact") + '">' +
       '<div data-reveal-group="footer" data-margin="-80px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-20 md:py-28">' +
       '<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">' +
       "<div" + reveal(30, 1, 0, "footer") + ">" +
@@ -185,7 +199,7 @@
       "</div>" +
       '<div class="flex flex-col justify-between"' + reveal(30, 1, 0.2, "footer") + "><div>" +
       '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.contact) + "</p>" +
-      '<h2 class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + (t.footer.title2 ? "<br>" + esc(t.footer.title2) : "") + "</h2>" +
+      "<" + h + ' class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + (t.footer.title2 ? "<br>" + esc(t.footer.title2) : "") + "</" + h + ">" +
       '<div class="deva-contact">' +
       '<a href="mailto:devacentar@gmail.com" class="deva-contact-btn">' + ICONS.mail(20, "deva-contact-icon") + "<span>" + esc(t.footer.email) + "</span></a>" +
       '<a href="viber://chat?number=%2B381641403475" class="deva-contact-btn">' + ICONS.viber(20, "deva-contact-icon") + "<span>" + esc(t.footer.viber) + "</span></a>" +
@@ -194,23 +208,29 @@
       '<div class="mt-20 pt-8 border-t border-[#F7F5F0]/10 flex flex-col sm:flex-row items-center justify-between gap-4">' +
       '<p class="font-body text-sm text-[#F7F5F0]/40">' + esc(t.footer.copyright) + "</p>" +
       '<div class="flex items-center gap-6">' +
-      '<button data-modal-open="privacy" class="' + small + '">' + esc(t.footer.privacy) + "</button>" +
-      '<button data-modal-open="terms" class="' + small + '">' + esc(t.footer.terms) + "</button>" +
+      '<a href="' + href("privacy") + '" class="' + small + '">' + esc(t.footer.privacy) + "</a>" +
+      '<a href="' + href("terms") + '" class="' + small + '">' + esc(t.footer.terms) + "</a>" +
       '<button data-scroll-top class="' + small + '">' + esc(t.footer.backToTop) + "</button>" +
       "</div></div></div>" +
-      modal("terms", t.termsContent) +
-      modal("privacy", t.privacyContent) +
       "</footer>";
   }
 
-  function page(dict, lang) {
+  // ctx: { page: one of PAGES, base: path from the page to the site root, e.g. "../" or "../../" }
+  function page(dict, lang, ctx) {
     var t = dict[lang];
-    return '<div class="bg-[#F7F5F0] min-h-screen">' +
-      nav(t, lang) + hero(t) + philosophy(t) + spaces(t) + membership(t) + footer(t) +
-      "</div>";
+    C = { lang: lang, page: ctx.page, base: ctx.base };
+    var body = {
+      home: function () { return hero(t) + philosophy(t) + spaces(t) + membership(t); },
+      spaces: function () { return spaces(t); },
+      membership: function () { return membership(t); },
+      contact: function () { return ""; },              // the contact block (the footer) is the page
+      privacy: function () { return doc(t.privacyContent); },
+      terms: function () { return doc(t.termsContent); }
+    }[ctx.page]();
+    return '<div class="bg-[#F7F5F0] min-h-screen">' + nav(t, lang) + body + footer(t) + "</div>";
   }
 
-  var api = { page: page };
+  var api = { page: page, ROUTES: ROUTES, PAGES: PAGES, path: path };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.DEVA_RENDER = api;
 })(this);
