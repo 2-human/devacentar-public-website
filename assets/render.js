@@ -116,7 +116,9 @@
     var LANGS = [["sr", "sr-Latn", "Srpski"], ["en", "en", "English"]];
     return '<nav data-nav aria-label="' + esc(W.nav) + '" class="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out bg-transparent">' +
       '<div class="max-w-[1400px] mx-auto flex items-center justify-between px-6 md:px-10 py-5 opacity-100">' +
-      '<a href="' + href("home") + '"' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="deva-brand font-display text-lg tracking-[0.06em] transition-colors duration-500 ' + (hero ? "text-[#F7F5F0]" : "text-[#2D2824]") + '">Centar DEVA</a>' +
+      '<a href="' + href("home") + '"' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="deva-brand font-display text-lg tracking-[0.06em] transition-colors duration-500 ' + (hero ? "text-[#F7F5F0]" : "text-[#2D2824]") + '">' +
+      // the logo (same mark as the favicon) left of the name; decorative, the link already says "Centar DEVA"
+      '<img src="' + img("assets/img/logo-64.png") + '" width="30" height="30" alt="" class="deva-logo">' + "<span>Centar DEVA</span></a>" +
       '<div class="flex items-center deva-nav-right">' +
       '<ul class="deva-nav-icons">' + icon("whatsapp", ICONS.whatsapp(18)) + icon("viber", ICONS.viber(18)) + icon("email", ICONS.mail(18)) +
       // share: the device's share sheet, or the link copied (site.js); last of the icons, before the menu button
