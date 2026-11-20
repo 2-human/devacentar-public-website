@@ -1,4 +1,4 @@
-/* Centar DEVA copy (EN + SR), extracted verbatim from the Base44 build 2026-10-03. */
+/* Centar DEVA copy (EN + SR), extracted verbatim from the Base44 build 2026-11-20 (somatic-space-flow.base44.app, bundle index-B8zNfPyD.js). */
 window.DEVA_I18N = {
  "en": {
   "nav": {
@@ -16,31 +16,48 @@ window.DEVA_I18N = {
    "cta": "View the Spaces"
   },
   "philosophy": {
-   "label": "Our Philosophy",
-   "title1": "A space",
-   "title2": "that supports the work",
-   "p1": "The space is primarily designed for body psychotherapy, and then for other modalities that use props in their work.",
-   "p2": "DEVA Hub rooms are fully equipped, comfortable, and filled with natural light, intended for individual work and work with smaller groups."
+   "label": "DEVA Hub",
+   "title1": "A space that",
+   "title2": "holds the encounter",
+   "intro": "The DEVA Hub space is primarily intended for psychotherapy and counseling work, in a calm setting made for focused, undisturbed sessions."
   },
   "spaces": {
    "label": "The Spaces",
-   "title1": "Rooms designed for",
-   "title2": "the body's work",
+   "title1": "A space that follows",
+   "title2": "your rhythm",
+   "points": [
+    {
+     "title": "Body-oriented practice",
+     "text": "The rooms are adapted to different forms of therapeutic work, with a focus on body psychotherapy and somatic practice."
+    },
+    {
+     "title": "Equipped for the work",
+     "text": "Therapists have access to appropriate props and equipment for body-oriented work, including a massage table."
+    },
+    {
+     "title": "Open to practitioners",
+     "text": "DEVA Hub also welcomes other professionals who work in direct contact with clients and need a pleasant, comfortable and equipped space for individual sessions and work with smaller groups."
+    }
+   ],
    "rooms": [
     {
-     "feature": "Sound-Insulated Walls",
      "name": "Tara Room",
-     "description": "A deeply quiet therapy room designed for one-on-one somatic sessions. Fabric-paneled walls absorb sound, creating an acoustic cocoon."
+     "description": "A room with two upholstered armchairs facing each other on a large rug over warm herringbone parquet. Daylight comes through two wide windows with white blinds, and the space is completed by a low plum sofa and a wooden chest."
     },
     {
-     "feature": "Natural Oak Flooring",
      "name": "Durga Room",
-     "description": "Generous open floor space for movement-based practices — dance therapy, authentic movement, Feldenkrais, and breathwork groups."
+     "description": "A room in warm peach tones with two tall upholstered armchairs facing each other and a generous rug across the parquet floor. Along the windows with white blinds sit gold side tables, plants, and a low sofa with floor cushions."
     },
     {
-     "feature": "Community & Kitchen",
      "name": "The Commons",
-     "description": "A shared lounge for practitioners to gather, collaborate, and recharge between sessions. Natural light, books, and good coffee."
+     "amenities": [
+      "Natural light",
+      "Books",
+      "Good coffee",
+      "Smoking area",
+      "Fridge",
+      "Mini kitchen"
+     ]
     }
    ]
   },
@@ -49,29 +66,29 @@ window.DEVA_I18N = {
    "title": "Choose your rhythm",
    "tiers": [
     {
-     "subtitle": "For the visiting practitioner",
-     "philosophy": "Drop-In",
-     "price": "800 RSD",
+     "subtitle": "For therapists who need occasional space",
+     "philosophy": "Single session",
+     "price": "800 RSD / 7 €",
      "unit": "per session",
      "inclusions": [
-      "Access to any available room",
-      "Same-day booking",
+      "Use of any available therapy room",
+      "Same-day booking (subject to availability)",
       "Use of shared amenities",
-      "Easy self-lock access"
+      "Self-entry via access code"
      ],
      "cta": "Get Started"
     },
     {
-     "subtitle": "For the rooted practice",
-     "philosophy": "Resident",
-     "price": "9000 RSD",
-     "unit": "per month (min. 16 sessions) · or 7000 RSD (min. 12 sessions)",
+     "subtitle": "For therapists with an established practice",
+     "philosophy": "Monthly rental",
+     "price": "10,000 RSD / 90 €",
+     "unit": "per month (min. 16 sessions) · or 8,000 RSD / 70 € (min. 12 sessions)",
      "inclusions": [
-      "Dedicated weekly room blocks (8AM–1PM, 1PM–5PM, 5PM–10PM)",
-      "Priority booking on all spaces",
+      "Reserved weekly time block (08:00–12:45, 13:00–16:30, 16:45–21:30)",
+      "Priority when booking all spaces",
       "Personal storage for materials",
       "Use of shared amenities",
-      "Easy self-lock access"
+      "Self-entry via access code"
      ],
      "cta": "Get Started"
     }
@@ -150,7 +167,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "9. Contact",
-     "body": "For any questions regarding reservations or use of the space, you can contact us via:\n\nE-mail: hello@centardeva.com\n\nPhone: +381641403475"
+     "body": "For any questions regarding reservations or use of the space, you can contact us via:\n\nE-mail: centardeva@gmail.com\n\nPhone: +381641403475"
     }
    ]
   },
@@ -197,7 +214,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "10. Contact",
-     "body": "For any questions regarding your personal data or this Privacy Policy, you can contact us via:\n\nE-mail: hello@centardeva.com\n\nPhone: +381641403475"
+     "body": "For any questions regarding your personal data or this Privacy Policy, you can contact us via:\n\nE-mail: centardeva@gmail.com\n\nPhone: +381641403475"
     }
    ]
   },
@@ -222,31 +239,48 @@ window.DEVA_I18N = {
    "cta": "Pogledajte prostore"
   },
   "philosophy": {
-   "label": "Naša filozofija",
+   "label": "DEVA Hub",
    "title1": "Prostor koji",
-   "title2": "podržava rad",
-   "p1": "Prostor je prvenstveno prilagođen telesnoj psihoterapiji, a zatim i ostalim modalitetima koji koriste rekvizite u svom radu.",
-   "p2": "DEVA Hub prostorije su potpuno opremljene, udobne, sa puno prirodne svetlosti, namenjene su individualnom radu i radu sa manjim grupama."
+   "title2": "čuva susret",
+   "intro": "Prostor DEVA Hub prvenstveno je namenjen psihoterapijskoj i savetodavnoj delatnosti, u mirnom okruženju stvorenom za nesmetan i posvećen rad."
   },
   "spaces": {
    "label": "Prostori",
-   "title1": "Prostorije prilagođene",
-   "title2": "telesno orijentisanom terapijskom radu",
+   "title1": "Prostor koji prati",
+   "title2": "vaš ritam",
+   "points": [
+    {
+     "title": "Telesno orijentisan rad",
+     "text": "Sobe su prilagođene različitim oblicima terapijskog rada, sa fokusom na telesnu psihoterapiju i somatski rad."
+    },
+    {
+     "title": "Opremljen za praksu",
+     "text": "Terapeutima su na raspolaganju odgovarajući rekviziti i oprema za rad sa telom, uključujući i masažni sto."
+    },
+    {
+     "title": "Otvoren za praktičare",
+     "text": "DEVA Hub je otvoren i za druge stručnjake koji rade u neposrednom kontaktu sa klijentima i traže prijatan, udoban i opremljen prostor za individualne susrete i rad sa manjim grupama."
+    }
+   ],
    "rooms": [
     {
-     "feature": "Zvučno izolovani zidovi",
      "name": "Soba Tara",
-     "description": "Duboko tiha terapijska soba stvorena za somatske seanse jedan-na-jedan. Zidovi obloženi tkaninom upijaju zvuk, stvarajući akustični kokon."
+     "description": "Soba sa dva tapacirana naslonjača okrenuta jedan ka drugom, velikim tepihom i toplim parketom u ribljoj kosti. Prirodna svetlost dolazi kroz dva velika prozora sa belim roletnama, a prostor upotpunjuju niska sofa u boji šljive i drvena komoda."
     },
     {
-     "feature": "Prirodni hrastov pod",
      "name": "Soba Durga",
-     "description": "Prostran otvoreni pod za prakse zasnovane na kretanju — terapiju plesom, autentično kretanje, Feldenkrais i grupe za rad s dahom."
+     "description": "Soba u toplim breskvastim tonovima, sa dva visoka tapacirana naslonjača okrenuta jedan ka drugom i prostranim tepihom na parketu. Uz prozore sa belim roletnama nalaze se zlatni stočići, biljke i niska sofa sa jastucima za sedenje na podu."
     },
     {
-     "feature": "Zajednica i kuhinja",
      "name": "Zajednički prostor",
-     "description": "Zajednički salon za okupljanje praktičara, saradnju i odmor između seansi. Prirodna svetlost, knjige i dobra kafa."
+     "amenities": [
+      "Prirodna svetlost",
+      "Knjige",
+      "Dobra kafa",
+      "Prostor za pušenje",
+      "Frižider",
+      "Mini kuhinja"
+     ]
     }
    ]
   },
@@ -257,27 +291,27 @@ window.DEVA_I18N = {
     {
      "subtitle": "Za terapeute kojima je potreban povremeni prostor",
      "philosophy": "Pojedinačni zakup",
-     "price": "800 RSD",
+     "price": "800 RSD / 7 €",
      "unit": "po terminu",
      "inclusions": [
       "Korišćenje bilo koje slobodne terapijske sobe",
       "Rezervacija istog dana (u skladu sa raspoloživošću)",
       "Korišćenje zajedničkih sadržaja",
-      "Samostalni ulazak putem pametne brave"
+      "Samostalni ulazak putem šifre"
      ],
      "cta": "Započnite"
     },
     {
      "subtitle": "Za terapeute sa stalnom praksom",
      "philosophy": "Mesečni zakup",
-     "price": "9.000 RSD",
-     "unit": "mesečno (min. 16 termina) · ili 7.000 RSD (min. 12 termina)",
+     "price": "10.000 RSD / 90 €",
+     "unit": "mesečno (min. 16 termina) · ili 8.000 RSD / 70 € (min. 12 termina)",
      "inclusions": [
-      "Rezervisan nedeljni blok termina (08:00–13:00, 13:00–17:00, 17:00–22:00)",
+      "Rezervisan nedeljni blok termina (08:00–12:45, 13:00–16:30, 16:45–21:30)",
       "Prioritet pri rezervaciji svih prostora",
       "Lični prostor za odlaganje materijala",
       "Korišćenje zajedničkih sadržaja",
-      "Samostalni ulazak putem pametne brave"
+      "Samostalni ulazak putem šifre"
      ],
      "cta": "Započnite"
     }
@@ -356,7 +390,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "9. Kontakt",
-     "body": "Za sva pitanja u vezi sa rezervacijama ili korišćenjem prostora možete nas kontaktirati putem:\n\nE-mail: hello@centardeva.com\n\nTelefon: +381641403475"
+     "body": "Za sva pitanja u vezi sa rezervacijama ili korišćenjem prostora možete nas kontaktirati putem:\n\nE-mail: centardeva@gmail.com\n\nTelefon: +381641403475"
     }
    ]
   },
@@ -403,7 +437,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "10. Kontakt",
-     "body": "Za sva pitanja u vezi sa vašim ličnim podacima ili ovom Politikom privatnosti možete nas kontaktirati putem:\n\nE-mail: hello@centardeva.com\n\nTelefon: +381641403475"
+     "body": "Za sva pitanja u vezi sa vašim ličnim podacima ili ovom Politikom privatnosti možete nas kontaktirati putem:\n\nE-mail: centardeva@gmail.com\n\nTelefon: +381641403475"
     }
    ]
   },

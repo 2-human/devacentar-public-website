@@ -1,6 +1,6 @@
 /*
  * Centar DEVA — page templates.
- * Ported 1:1 from the Base44 React build (somatic-space-flow.base44.app, 2026-10-03):
+ * Ported 1:1 from the Base44 React build (somatic-space-flow.base44.app, 2026-10-03; re-synced 2026-11-20):
  * same markup, same Tailwind class strings (styled by the original compiled app.css).
  * Used twice: by tools/build-website.mjs to prerender index.html (EN), and in the
  * browser by site.js to re-render on language switch.
@@ -38,12 +38,14 @@
   var ls = ' style="letter-spacing: -0.02em;"';
 
   function nav(t, lang) {
+    var tone = function (top, scrolled) { return ' data-tone-top="' + top + '" data-tone-scrolled="' + scrolled + '"'; };
+    var btn = "font-body text-[11px] tracking-[0.2em] uppercase transition-colors duration-500 hover:text-[#B05A47] ";
     return '<nav data-nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out bg-transparent">' +
       '<div class="max-w-[1400px] mx-auto flex items-center justify-between px-6 md:px-10 py-5 opacity-100">' +
-      '<a href="#" class="font-display text-lg tracking-wide text-[#B05A47]">Centar DEVA</a>' +
+      '<a href="#"' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="font-display text-lg tracking-[0.06em] transition-colors duration-500 text-[#F7F5F0]">Centar DEVA</a>' +
       '<div class="flex items-center gap-6">' +
-      '<button data-lang-toggle class="font-body text-sm tracking-widest uppercase hover:text-[#9A4A38] transition-colors duration-500 text-[hsl(var(--chart-5))]">' + (lang === "en" ? "SR" : "EN") + "</button>" +
-      '<button data-menu-open class="font-body text-sm tracking-widest uppercase hover:text-[#9A4A38] transition-colors duration-500 text-[hsl(var(--chart-1))]">' + esc(t.nav.menu) + "</button>" +
+      '<button data-lang-toggle' + tone("text-[#F7F5F0]/80", "text-[#2D2824]/70") + ' class="' + btn + 'text-[#F7F5F0]/80">' + (lang === "en" ? "SR" : "EN") + "</button>" +
+      '<button data-menu-open' + tone("text-[#F7F5F0]", "text-[#2D2824]") + ' class="' + btn + 'text-[#F7F5F0]">' + esc(t.nav.menu) + "</button>" +
       "</div></div></nav>" +
       '<div data-menu hidden class="fixed inset-0 z-[100] bg-[#F7F5F0]/95 backdrop-blur-xl flex flex-col items-center justify-center">' +
       '<div class="absolute top-6 right-6 md:right-10 flex items-center gap-6">' +
@@ -64,75 +66,78 @@
       '<div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65"></div>' +
       "</div>" +
       '<div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center opacity-100">' +
-      '<p data-intro="20,1,0" class="mb-5 font-body tracking-[0.3em] uppercase text-sm text-[hsl(var(--chart-4))]">' + esc(t.hero.brand) + "</p>" +
-      '<h1 data-intro="30,1.2,0" class="tracking-tight leading-tight max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[hsl(var(--secondary))] text-7xl sm:text-7xl md:text-7xl lg:text-7xl"' + ls + ">" +
+      '<p data-intro="20,1,0" class="mb-5 font-body tracking-[0.3em] uppercase text-[11px] text-[#F7F5F0]/70">' + esc(t.hero.brand) + "</p>" +
+      '<h1 data-intro="30,1.2,0" class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
       esc(t.hero.title1) + "<br>" + esc(t.hero.title2) + "</h1>" +
-      '<button data-intro="20,1,0.7" data-scroll-to="#spaces" class="mt-10 px-8 py-3.5 font-body text-sm tracking-widest uppercase rounded-full bg-white/15 text-white border border-white/30 transition-all duration-500 hover:bg-transparent hover:border-white/50">' + esc(t.hero.cta) + "</button>" +
+      '<button data-intro="20,1,0.7" data-scroll-to="#spaces" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</button>" +
       "</div></section>";
   }
 
+  // Section label + heading, shared by philosophy, spaces and membership in the 2026-11 build.
+  function heading(label, title1, title2) {
+    return '<p class="font-body text-[#9A4A38]/80 text-[11px] tracking-[0.28em] uppercase mb-5">' + esc(label) + "</p>" +
+      '<h2 class="font-display text-[#9A4A38] text-3xl md:text-[2.35rem] lg:text-[2.9rem] leading-[1.14]"' + ls + ">" + esc(title1) + (title2 ? "<br>" + esc(title2) : "") + "</h2>";
+  }
+
   function philosophy(t) {
-    return '<section class="bg-[#F7F5F0] py-24 md:py-36">' +
-      '<div class="w-full border-t border-[#EBE8E3]"></div>' +
-      '<div data-reveal-group="philosophy" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10 pt-20 md:pt-28">' +
-      '<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">' +
-      "<div" + reveal(40, 1, 0, "philosophy") + ">" +
-      '<p class="font-body text-[#B05A47] text-xs tracking-widest uppercase mb-6">' + esc(t.philosophy.label) + "</p>" +
-      '<h2 class="font-display text-[#2D2824] text-3xl md:text-4xl lg:text-5xl leading-tight mb-8"' + ls + ">" + esc(t.philosophy.title1) + "<br>" + esc(t.philosophy.title2) + "</h2>" +
-      '<div class="space-y-5 font-body text-[#2D2824]/75 text-lg leading-relaxed"><p>' + esc(t.philosophy.p1) + "</p><p>" + esc(t.philosophy.p2) + "</p></div>" +
-      "</div>" +
-      '<div class="overflow-hidden rounded-[4px]"' + reveal(40, 1, 0.2, "philosophy") + ">" +
-      '<img src="' + IMG.philosophy + '" alt="Close-up of natural materials — warm oak surface with soft diffused light" class="w-full h-[400px] md:h-[500px] object-cover hover:scale-105 hover:saturate-[1.1] transition-all duration-1000 ease-out">' +
+    var P = t.philosophy;
+    return '<section class="border-t border-[#EBE8E3] bg-[#F7F5F0]">' +
+      '<div data-reveal-group="philosophy" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32">' +
+      '<div class="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">' +
+      "<div" + reveal(30, 1, 0, "philosophy") + '><div class="">' + heading(P.label, P.title1, P.title2) + "</div>" +
+      '<p class="mt-8 font-body text-[#2D2824]/70 text-lg leading-relaxed max-w-md">' + esc(P.intro) + "</p></div>" +
+      '<div class="relative overflow-hidden rounded-[3px]"' + reveal(30, 1, 0.2, "philosophy") + ">" +
+      '<img src="' + IMG.philosophy + '" alt="Warm interior of the DEVA Hub therapy space" class="w-full h-[340px] md:h-[440px] lg:h-[500px] object-cover">' +
+      '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
       "</div></div></div></section>";
   }
 
   function spaces(t) {
-    return '<section id="spaces" class="bg-[#EBE8E3]/40 py-24 md:py-36">' +
-      '<div data-reveal-group="spaces" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10">' +
-      '<div class="flex items-end justify-between mb-14"' + reveal(30, 1, 0, "spaces") + ">" +
-      '<div><p class="font-body text-[#B05A47] text-xs tracking-widest uppercase mb-4">' + esc(t.spaces.label) + "</p>" +
-      '<h2 class="font-display text-[#2D2824] text-3xl md:text-4xl lg:text-5xl leading-tight"' + ls + ">" + esc(t.spaces.title1) + '<br class="hidden md:block"> ' + esc(t.spaces.title2) + "</h2></div>" +
-      '<div class="hidden md:flex gap-2"></div>' +
-      "</div></div>" +
-      '<div class="flex gap-6 overflow-x-auto scrollbar-hide px-6 md:px-10 pb-4 snap-x snap-mandatory" style="scrollbar-width: none;"' + reveal(0, 1, 0.3, "spaces") + ">" +
-      t.spaces.rooms.map(function (r, i) {
-        return '<div class="flex-shrink-0 w-[85vw] sm:w-[60vw] md:w-[42vw] lg:w-[30vw] snap-start group">' +
-          '<div class="overflow-hidden rounded-[4px] mb-5"><img src="' + IMG.spaces[i % IMG.spaces.length] + '" alt="' + esc(r.name + " — " + r.feature) + '" class="w-full h-[300px] md:h-[360px] object-cover group-hover:scale-105 group-hover:saturate-[1.1] transition-all duration-1000 ease-out"></div>' +
-          '<p class="font-body text-[#B05A47] text-xs tracking-widest uppercase mb-2">' + esc(r.feature) + "</p>" +
-          '<h3 class="font-display text-[#2D2824] text-xl md:text-2xl mb-2"' + ls + ">" + esc(r.name) + "</h3>" +
-          '<p class="font-body text-[#2D2824]/65 text-base leading-relaxed">' + esc(r.description) + "</p>" +
-          "</div>";
+    var S = t.spaces;
+    return '<section id="spaces" class="border-t border-[#E7DFD1] bg-[#F4EFE6]">' +
+      '<div data-reveal-group="spaces" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32">' +
+      "<div" + reveal(26, 1, 0, "spaces") + '><div class="">' + heading(S.label, S.title1, S.title2) + "</div></div>" +
+      '<div class="mt-14 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-10 md:gap-0 border-t border-[#2D2824]/10 pt-10 md:pt-12"' + reveal(20, 1, 0.2, "spaces") + ">" +
+      S.points.map(function (pt, i) {
+        return '<div class="' + (i === 0 ? "md:px-8 md:pl-0" : "md:px-8 md:border-l md:border-[#2D2824]/10") + '">' +
+          '<h3 class="font-body text-[11px] tracking-[0.22em] uppercase text-[#9A4A38] mb-3">' + esc(pt.title) + "</h3>" +
+          '<p class="font-body text-[#2D2824]/60 text-[15px] leading-[1.85] max-w-sm">' + esc(pt.text) + "</p></div>";
       }).join("") +
-      "</div></section>";
+      "</div>" +
+      '<div class="mt-16 md:mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-8">' +
+      S.rooms.map(function (r, i) {
+        return '<div class="group"' + reveal(24, 1, 0.3 + i * 0.12, "spaces") + ">" +
+          '<h3 class="font-display text-[#9A4A38] text-xl md:text-[1.4rem] leading-snug mb-4"' + ls + ">" + esc(r.name) + "</h3>" +
+          '<div class="relative overflow-hidden rounded-[4px] bg-[#EDE5D8] shadow-[0_22px_45px_-32px_rgba(45,40,36,0.55)]">' +
+          '<img src="' + IMG.spaces[i % IMG.spaces.length] + '" alt="' + esc(r.name) + '" class="w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]">' +
+          '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
+          "</div></div>";
+      }).join("") +
+      "</div></div></section>";
   }
 
   function membership(t) {
-    return '<section id="membership" class="bg-[#F7F5F0] py-24 md:py-36">' +
-      '<div class="w-full border-t border-[#EBE8E3]"></div>' +
-      '<div data-reveal-group="membership" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10 pt-20 md:pt-28">' +
-      '<div class="text-center mb-16 md:mb-20"' + reveal(30, 1, 0, "membership") + ">" +
-      '<p class="font-body text-[#B05A47] text-xs tracking-widest uppercase mb-4">' + esc(t.membership.label) + "</p>" +
-      '<h2 class="font-display text-[#2D2824] text-3xl md:text-4xl lg:text-5xl leading-tight"' + ls + ">" + esc(t.membership.title) + "</h2>" +
-      "</div>" +
-      '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">' +
-      t.membership.tiers.map(function (tier, a) {
+    var M = t.membership;
+    return '<section id="membership" class="border-t border-[#EBE8E3] bg-[#F7F5F0]">' +
+      '<div data-reveal-group="membership" data-margin="-100px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32">' +
+      '<div class="mb-12 md:mb-14"' + reveal(30, 1, 0, "membership") + '><div class="text-center">' + heading(M.label, M.title) + "</div></div>" +
+      '<div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto md:grid-rows-[auto_auto_auto_auto_auto_1fr_auto]">' +
+      M.tiers.map(function (tier, a) {
         var dark = a === 1;
-        return '<div class="rounded-[4px] p-8 md:p-10 flex flex-col ' + (dark ? "bg-[#2D2824] text-[#F7F5F0]" : "bg-[#EBE8E3]/50 text-[#2D2824]") + '"' + reveal(40, 0.9, a * 0.15, "membership") + ">" +
-          '<p class="font-body text-xs tracking-widest uppercase mb-3 text-[#B05A47]">' + esc(tier.subtitle) + "</p>" +
-          '<h3 class="font-display text-2xl md:text-3xl mb-1"' + ls + ">" + esc(tier.philosophy) + "</h3>" +
-          '<div class="mt-4 mb-8 min-h-[80px] flex flex-col justify-start">' +
-          '<div class="font-display text-3xl md:text-4xl"' + ls + ">" + esc(tier.price) + "</div>" +
-          '<div class="font-body text-sm mt-1 leading-relaxed ' + (dark ? "text-[#F7F5F0]/60" : "text-[#2D2824]/50") + '">' + esc(tier.unit) + "</div>" +
-          "</div>" +
-          '<div class="w-full border-t mb-8 ' + (dark ? "border-[#F7F5F0]/15" : "border-[#2D2824]/10") + '"></div>' +
-          '<ul class="space-y-3 flex-1">' +
+        return '<div class="rounded-[3px] p-7 md:p-9 flex flex-col md:grid md:grid-rows-subgrid md:row-span-7 ' + (dark ? "bg-[#2D2824] text-[#F7F5F0]" : "bg-[#EFE8DC] ring-1 ring-[#9A4A38]/10") + '"' + reveal(30, 0.9, a * 0.15, "membership") + ">" +
+          '<p class="font-body text-[11px] tracking-[0.22em] uppercase mb-3 text-[#B05A47]">' + esc(tier.subtitle) + "</p>" +
+          '<h3 class="font-display text-2xl md:text-3xl leading-tight"' + ls + ">" + esc(tier.philosophy) + "</h3>" +
+          '<div class="mt-3 font-display text-3xl md:text-4xl leading-none ' + (dark ? "text-[#F7F5F0]" : "text-[#9A4A38]") + '"' + ls + ">" + esc(tier.price) + "</div>" +
+          '<div class="font-body text-[11px] mt-1 leading-[1.5] ' + (dark ? "text-[#F7F5F0]/60" : "text-[#2D2824]/55") + '">' + esc(tier.unit) + "</div>" +
+          '<div class="w-full border-t mt-1.5 ' + (dark ? "border-[#F7F5F0]/15" : "border-[#2D2824]/10") + '"></div>' +
+          '<ul class="space-y-2.5 mt-5">' +
           tier.inclusions.map(function (l) {
-            return '<li class="flex items-start gap-3"><span class="mt-1.5 w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#B05A47]"></span>' +
-              '<span class="font-body text-base leading-relaxed ' + (dark ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + esc(l) + "</span></li>";
+            return '<li class="flex items-start gap-3"><span class="mt-2.5 w-3 h-px flex-shrink-0 bg-[#B05A47]"></span>' +
+              '<span class="font-body text-[15px] leading-snug ' + (dark ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + esc(l) + "</span></li>";
           }).join("") +
           "</ul>" +
-          '<a href="#contact" data-scroll-to="#contact" class="mt-10 w-full py-3.5 rounded-full font-body text-sm tracking-widest uppercase text-center transition-colors duration-500 block ' +
-          (dark ? "border border-[#F7F5F0]/30 text-[#F7F5F0] hover:border-[#F7F5F0]/60 hover:bg-[#F7F5F0]/10" : "border border-[#2D2824]/20 text-[#2D2824] hover:bg-[#2D2824] hover:text-[#F7F5F0]") +
+          '<a href="#contact" data-scroll-to="#contact" class="mt-8 w-full py-3.5 rounded-full font-body text-[11px] tracking-[0.2em] uppercase text-center transition-colors duration-500 block ' +
+          (dark ? "border border-[#F7F5F0]/30 text-[#F7F5F0] hover:border-[#F7F5F0]/60" : "border border-[#2D2824]/20 text-[#2D2824] hover:bg-[#2D2824] hover:text-[#F7F5F0] hover:border-[#2D2824]") +
           '">' + esc(tier.cta) + "</a>" +
           "</div>";
       }).join("") +
@@ -164,17 +169,17 @@
       '<div data-reveal-group="footer" data-margin="-80px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-20 md:py-28">' +
       '<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">' +
       "<div" + reveal(30, 1, 0, "footer") + ">" +
-      '<p class="font-body text-[#B05A47] text-xs tracking-widest uppercase mb-6">' + esc(t.footer.findUs) + "</p>" +
-      '<div class="rounded-[4px] overflow-hidden h-[300px] md:h-[360px] bg-[#2D2824] relative">' +
+      '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.findUs) + "</p>" +
+      '<div class="rounded-[3px] overflow-hidden h-[300px] md:h-[360px] bg-[#2D2824] relative">' +
       '<iframe title="Centar DEVA Location" src="https://maps.google.com/maps?q=Omladinskih%20Brigada%2076%2011070%20Novi%20Beograd&amp;z=15&amp;output=embed" class="w-full h-full border-0 grayscale opacity-70" loading="lazy"></iframe>' +
       "</div></div>" +
       '<div class="flex flex-col justify-between"' + reveal(30, 1, 0.2, "footer") + "><div>" +
-      '<p class="font-body text-[#B05A47] text-xs tracking-widest uppercase mb-6">' + esc(t.footer.contact) + "</p>" +
+      '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.contact) + "</p>" +
       '<h2 class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + "<br>" + esc(t.footer.title2) + "</h2>" +
       '<div class="space-y-5">' +
       '<a href="https://maps.google.com/?q=Omladinskih+Brigada+76+11070+Novi+Beograd" target="_blank" rel="noopener noreferrer" class="flex items-start gap-4 group">' +
       ICONS.mapPin(18, "mt-0.5 text-[#B05A47] flex-shrink-0") + '<span class="' + link + '">' + esc(t.footer.address1) + "<br>" + esc(t.footer.address2) + "</span></a>" +
-      '<a href="mailto:hello@centardeva.com" class="flex items-center gap-4 group">' + ICONS.mail(18, "text-[#B05A47] flex-shrink-0") + '<span class="' + link + '">hello@centardeva.com</span></a>' +
+      '<a href="mailto:centardeva@gmail.com" class="flex items-center gap-4 group">' + ICONS.mail(18, "text-[#B05A47] flex-shrink-0") + '<span class="' + link + '">centardeva@gmail.com</span></a>' +
       '<a href="tel:+381641403475" class="flex items-center gap-4 group">' + ICONS.phone(18, "text-[#B05A47] flex-shrink-0") + '<span class="' + link + '">+381 64 140 3475</span></a>' +
       '<a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 group">' + ICONS.instagram(18, "text-[#B05A47] flex-shrink-0") + '<span class="' + link + '">@centardeva</span></a>' +
       "</div></div></div></div>" +
@@ -192,7 +197,7 @@
 
   function page(dict, lang) {
     var t = dict[lang];
-    return '<div class="bg-[#F5F4EE] min-h-screen">' +
+    return '<div class="bg-[#F7F5F0] min-h-screen">' +
       nav(t, lang) + hero(t) + philosophy(t) + spaces(t) + membership(t) + footer(t) +
       "</div>";
   }

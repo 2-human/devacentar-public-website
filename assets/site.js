@@ -62,6 +62,10 @@
     var scrolled = window.scrollY > 60;
     NAV_SCROLLED.forEach(function (c) { nav.classList.toggle(c, scrolled); });
     nav.classList.toggle("bg-transparent", !scrolled);
+    nav.querySelectorAll("[data-tone-top]").forEach(function (el) { // light text over the hero, dark on the scrolled bar
+      var from = (scrolled ? el.dataset.toneTop : el.dataset.toneScrolled), to = (scrolled ? el.dataset.toneScrolled : el.dataset.toneTop);
+      if (from !== to) { el.classList.remove(from); el.classList.add(to); }
+    });
     var px = root.querySelector("[data-parallax]");
     if (px) px.style.transform = "translateY(" + window.scrollY * 0.3 + "px)";
   }
