@@ -96,7 +96,7 @@
       '<div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65"></div>' +
       "</div>" +
       '<div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center opacity-100">' +
-      '<p data-intro="20,1,0" class="mb-5 font-body tracking-[0.3em] uppercase text-[11px] text-[#F7F5F0]/70">' + esc(t.hero.brand) + "</p>" +
+      // The "DEVA Hub" label above the heading was dropped on 20 Nov 2026 (operator); hero.brand still names the site in titles.
       '<h1 data-intro="30,1.2,0" class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
       esc(t.hero.title1) + "<br>" + esc(t.hero.title2) + "</h1>" +
       '<a' + go("spaces") + ' data-intro="20,1,0.7" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</a>" +
