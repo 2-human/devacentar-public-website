@@ -175,7 +175,33 @@
     });
   });
 
+  // Share: the device's share sheet where there is one (phones), otherwise the link is copied and a short notice says so
+  // (the notice is a polite live region, so screen readers announce it too).
+  var toastTimer;
+  function notice(text) {
+    var t = root.querySelector("[data-toast]"); if (!t) return;
+    t.textContent = text; t.classList.add("is-on");
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove("is-on"); t.textContent = ""; }, 2600);
+  }
+  function copy(text) {
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function (ok, fail) { // older browsers
+      var f = document.createElement("textarea"); f.value = text; f.setAttribute("readonly", ""); f.style.position = "fixed"; f.style.opacity = "0";
+      document.body.appendChild(f); f.select();
+      try { document.execCommand("copy") ? ok() : fail(); } catch (e) { fail(e); } finally { f.remove(); }
+    });
+  }
+  function share(btn) {
+    var canon = document.querySelector('link[rel="canonical"]');
+    var data = { title: document.title, url: canon ? canon.href : location.href.split("#")[0] };
+    var copied = function () { copy(data.url).then(function () { notice(btn.dataset.copied); }, function () { window.prompt("", data.url); }); };
+    if (navigator.share) navigator.share(data).catch(function (err) { if (!err || err.name !== "AbortError") copied(); });
+    else copied();
+  }
+
   root.addEventListener("click", function (e) {
+    var sh = e.target.closest("[data-share]");
+    if (sh) { share(sh); return; }
     var g = e.target.closest("[data-goto]");
     if (g) { var card = g.closest("[data-room]"); showSlide(card, +g.dataset.goto, +g.dataset.goto > +card.dataset.slide ? -1 : 1); return; }
     var t = e.target.closest("[data-menu-open],[data-menu-close],[data-scroll-to],[data-scroll-top],[data-modal-open],[data-modal-close],[data-modal],[data-modal-panel],[data-map]");
