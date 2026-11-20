@@ -126,7 +126,10 @@ window.DEVA_I18N = {
    "copyright": "© 2025 Centar DEVA. All rights reserved.",
    "privacy": "Privacy",
    "terms": "Terms",
-   "backToTop": "Back to top ↑"
+   "backToTop": "Back to top ↑",
+   "email": "Email",
+   "viber": "Viber",
+   "whatsapp": "WhatsApp"
   },
   "termsContent": {
    "title": "Terms of Use",
@@ -167,7 +170,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "9. Contact",
-     "body": "For any questions regarding reservations or use of the space, you can contact us via:\n\nE-mail: centardeva@gmail.com\n\nPhone: +381641403475"
+     "body": "For any questions regarding reservations or use of the space, you can contact us via:\n\nE-mail: devacentar@gmail.com\n\nPhone: +381641403475"
     }
    ]
   },
@@ -214,7 +217,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "10. Contact",
-     "body": "For any questions regarding your personal data or this Privacy Policy, you can contact us via:\n\nE-mail: centardeva@gmail.com\n\nPhone: +381641403475"
+     "body": "For any questions regarding your personal data or this Privacy Policy, you can contact us via:\n\nE-mail: devacentar@gmail.com\n\nPhone: +381641403475"
     }
    ]
   },
@@ -349,7 +352,10 @@ window.DEVA_I18N = {
    "copyright": "© 2025 Centar DEVA. Sva prava zadržana.",
    "privacy": "Privatnost",
    "terms": "Uslovi",
-   "backToTop": "Nazad na vrh ↑"
+   "backToTop": "Nazad na vrh ↑",
+   "email": "Email",
+   "viber": "Viber",
+   "whatsapp": "WhatsApp"
   },
   "termsContent": {
    "title": "Uslovi korišćenja",
@@ -390,7 +396,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "9. Kontakt",
-     "body": "Za sva pitanja u vezi sa rezervacijama ili korišćenjem prostora možete nas kontaktirati putem:\n\nE-mail: centardeva@gmail.com\n\nTelefon: +381641403475"
+     "body": "Za sva pitanja u vezi sa rezervacijama ili korišćenjem prostora možete nas kontaktirati putem:\n\nE-mail: devacentar@gmail.com\n\nTelefon: +381641403475"
     }
    ]
   },
@@ -437,7 +443,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "10. Kontakt",
-     "body": "Za sva pitanja u vezi sa vašim ličnim podacima ili ovom Politikom privatnosti možete nas kontaktirati putem:\n\nE-mail: centardeva@gmail.com\n\nTelefon: +381641403475"
+     "body": "Za sva pitanja u vezi sa vašim ličnim podacima ili ovom Politikom privatnosti možete nas kontaktirati putem:\n\nE-mail: devacentar@gmail.com\n\nTelefon: +381641403475"
     }
    ]
   },
