@@ -2,8 +2,8 @@
  * Centar DEVA — behaviour, vanilla port of the Base44 React build.
  * Every page is prerendered per language (rs/, en/; tools/build-website.mjs), so this file only
  * adds behaviour: nav background after 60px, fullscreen menu, hero parallax (0.3x), in-view
- * reveals (framer-motion ease [0.2,0,0.2,1]) and back to top. The language switch and the
- * privacy/terms links are plain links to the other pages.
+ * reveals (framer-motion ease [0.2,0,0.2,1]), in-page scrolling, the privacy/terms dialogs and
+ * back to top. The language switch is a plain link to the other language's page.
  */
 (function () {
   var EASE = "cubic-bezier(0.2, 0, 0.2, 1)";
@@ -86,16 +86,48 @@
     setTimeout(function () { m.hidden = true; }, 500);
   }
 
+  // Privacy and terms dialogs (while their pages are not published).
+  function openModal(name) {
+    var m = root.querySelector('[data-modal="' + name + '"]');
+    var p = m.querySelector("[data-modal-panel]");
+    m.hidden = false;
+    document.body.style.overflow = "hidden";
+    hide(m, 0);
+    p.style.transition = "none"; p.style.opacity = "0"; p.style.transform = "translateY(30px) scale(0.98)";
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      animate(m, 0, 0.4, 0);
+      animate(p, 30, 0.5, 0);
+    }); });
+  }
+  function closeModal(m) {
+    var p = m.querySelector("[data-modal-panel]");
+    m.style.transition = "opacity 0.4s " + EASE; m.style.opacity = "0";
+    p.style.transition = "opacity 0.5s " + EASE + ", transform 0.5s " + EASE;
+    p.style.opacity = "0"; p.style.transform = "translateY(30px) scale(0.98)";
+    document.body.style.overflow = "";
+    setTimeout(function () { m.hidden = true; }, 500);
+  }
+
   root.addEventListener("click", function (e) {
-    var t = e.target.closest("[data-menu-open],[data-menu-close],[data-scroll-to],[data-scroll-top]");
+    var t = e.target.closest("[data-menu-open],[data-menu-close],[data-scroll-to],[data-scroll-top],[data-modal-open],[data-modal-close],[data-modal],[data-modal-panel]");
     if (!t) return;
+    if (t.hasAttribute("data-modal-panel")) return; // clicks inside a dialog panel don't close it
     if (t.hasAttribute("data-menu-open")) openMenu();
     else if (t.hasAttribute("data-menu-close")) closeMenu();
-    else if (t.hasAttribute("data-scroll-to")) { e.preventDefault(); scrollTo(t.dataset.scrollTo); }
-    else if (t.hasAttribute("data-scroll-top")) window.scrollTo({ top: 0, behavior: "smooth" });
+    else if (t.hasAttribute("data-scroll-to")) {
+      e.preventDefault();
+      if (t.hasAttribute("data-menu-item")) closeMenu();
+      scrollTo(t.dataset.scrollTo);
+    } else if (t.hasAttribute("data-scroll-top")) window.scrollTo({ top: 0, behavior: "smooth" });
+    else if (t.hasAttribute("data-modal-open")) openModal(t.dataset.modalOpen);
+    else if (t.hasAttribute("data-modal-close")) closeModal(t.closest("[data-modal]"));
+    else if (t.hasAttribute("data-modal")) closeModal(t);
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !root.querySelector("[data-menu]").hidden) closeMenu();
+    if (e.key !== "Escape") return;
+    var open = root.querySelector("[data-modal]:not([hidden])");
+    if (open) closeModal(open);
+    else if (!root.querySelector("[data-menu]").hidden) closeMenu();
   });
   window.addEventListener("scroll", onScroll, { passive: true });
 

@@ -44,10 +44,20 @@
     en: { slug: "en", home: "", spaces: "spaces/", membership: "membership/", contact: "contact/", privacy: "privacy/", terms: "terms/" }
   };
   var PAGES = ["home", "spaces", "membership", "contact", "privacy", "terms"];
+  // Pages that are built and linked. For now only the home pages are live (operator, 20 Nov 2026); the others
+  // are developed later. Until a page is listed here, its links scroll to the section on the home page, and
+  // privacy/terms open as dialogs, as in the Base44 build.
+  var PUBLISHED = ["home"];
+  var SECTION = { spaces: "#spaces", membership: "#membership", contact: "#contact" };
   var path = function (lang, page) { return ROUTES[lang].slug + "/" + ROUTES[lang][page]; };
   var C; // the page being rendered: { lang, page, base }
   var href = function (page, lang) { return C.base + path(lang || C.lang, page); };
   var img = function (src) { return C.base + src; };
+  var live = function (page) { return PUBLISHED.indexOf(page) >= 0; };
+  // href (and scroll hook) for a link to one of the pages
+  var go = function (page) {
+    return live(page) ? ' href="' + href(page) + '"' : ' href="' + SECTION[page] + '" data-scroll-to="' + SECTION[page] + '"';
+  };
 
   // data-reveal="y,duration,delay[,group]" — group ties several elements to one in-view trigger.
   var reveal = function (y, dur, delay, group) {
@@ -74,7 +84,7 @@
       "</div>" +
       '<div class="flex flex-col items-center gap-10">' +
       ["spaces", "membership", "contact"].map(function (k, i) {
-        return '<a href="' + href(k) + '" data-menu-item data-delay="' + i * 0.08 + '" class="font-display text-4xl md:text-5xl text-[#2D2824] hover:text-[#9A4A38] transition-colors duration-500 tracking-tight"' + (C.page === k ? ' aria-current="page"' : "") + ">" + esc(t.nav[k]) + "</a>";
+        return '<a' + go(k) + ' data-menu-item data-delay="' + i * 0.08 + '" class="font-display text-4xl md:text-5xl text-[#2D2824] hover:text-[#9A4A38] transition-colors duration-500 tracking-tight"' + (C.page === k ? ' aria-current="page"' : "") + ">" + esc(t.nav[k]) + "</a>";
       }).join("") +
       "</div></div>";
   }
@@ -89,7 +99,7 @@
       '<p data-intro="20,1,0" class="mb-5 font-body tracking-[0.3em] uppercase text-[11px] text-[#F7F5F0]/70">' + esc(t.hero.brand) + "</p>" +
       '<h1 data-intro="30,1.2,0" class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
       esc(t.hero.title1) + "<br>" + esc(t.hero.title2) + "</h1>" +
-      '<a href="' + href("spaces") + '" data-intro="20,1,0.7" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</a>" +
+      '<a' + go("spaces") + ' data-intro="20,1,0.7" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</a>" +
       "</div></section>";
   }
 
@@ -160,7 +170,7 @@
               '<span class="font-body text-[15px] leading-snug ' + (dark ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + esc(l) + "</span></li>";
           }).join("") +
           "</ul>" +
-          '<a href="' + href("contact") + '" class="mt-8 w-full py-3.5 rounded-full font-body text-[11px] tracking-[0.2em] uppercase text-center transition-colors duration-500 block ' +
+          '<a' + go("contact") + ' class="mt-8 w-full py-3.5 rounded-full font-body text-[11px] tracking-[0.2em] uppercase text-center transition-colors duration-500 block ' +
           (dark ? "border border-[#F7F5F0]/30 text-[#F7F5F0] hover:border-[#F7F5F0]/60" : "border border-[#2D2824]/20 text-[#2D2824] hover:bg-[#2D2824] hover:text-[#F7F5F0] hover:border-[#2D2824]") +
           '">' + esc(tier.cta) + "</a>" +
           "</div>";
@@ -183,8 +193,31 @@
       "</div></div></div></main>";
   }
 
+  // The Base44 build's dialog, used for privacy/terms while their pages are not published.
+  function modal(name, c) {
+    return '<div data-modal="' + name + '" hidden class="fixed inset-0 z-[200] bg-[#262A22]/80 backdrop-blur-sm flex items-start md:items-center justify-center p-4 md:p-8 overflow-y-auto">' +
+      '<div data-modal-panel class="bg-[#F5F4EE] text-[#262A22] rounded-[6px] w-full max-w-2xl my-8 relative">' +
+      '<div class="sticky top-0 bg-[#F5F4EE] flex items-center justify-between px-8 md:px-10 pt-8 pb-4 border-b border-[#DDE0D5] rounded-t-[6px]">' +
+      '<div><p class="font-body text-[#5A7048] text-xs tracking-widest uppercase mb-1">' + esc(c.updated) + "</p>" +
+      '<h2 class="font-display text-2xl md:text-3xl"' + ls + ">" + esc(c.title) + "</h2></div>" +
+      '<button data-modal-close aria-label="Close" class="text-[#262A22] hover:text-[#5A7048] transition-colors duration-500 flex-shrink-0 ml-4">' + ICONS.x(22) + "</button>" +
+      "</div>" +
+      '<div class="px-8 md:px-10 py-8 max-h-[60vh] overflow-y-auto">' +
+      '<p class="font-body text-sm md:text-base text-[#262A22]/70 mb-8 leading-relaxed">' + esc(c.intro) + "</p>" +
+      '<div class="space-y-6">' +
+      c.sections.map(function (s) {
+        return '<div><h3 class="font-display text-lg mb-2 text-[#262A22]">' + esc(s.heading) + "</h3>" +
+          '<p class="font-body text-sm md:text-base text-[#262A22]/70 leading-relaxed whitespace-pre-line">' + esc(s.body) + "</p></div>";
+      }).join("") +
+      "</div></div></div></div>";
+  }
+
   function footer(t) {
     var small = "font-body text-sm text-[#F7F5F0]/40 hover:text-[#F7F5F0]/70 transition-colors duration-500";
+    var legal = function (page, label) {
+      return live(page) ? '<a href="' + href(page) + '" class="' + small + '">' + esc(label) + "</a>"
+        : '<button data-modal-open="' + page + '" class="' + small + '">' + esc(label) + "</button>";
+    };
     var h = own("contact") ? "h1" : "h2";
     return '<footer id="contact" class="bg-[#2D2824] text-[#F7F5F0]' + top("contact") + '">' +
       '<div data-reveal-group="footer" data-margin="-80px" class="max-w-[1400px] mx-auto px-6 md:px-10 py-20 md:py-28">' +
@@ -208,10 +241,11 @@
       '<div class="mt-20 pt-8 border-t border-[#F7F5F0]/10 flex flex-col sm:flex-row items-center justify-between gap-4">' +
       '<p class="font-body text-sm text-[#F7F5F0]/40">' + esc(t.footer.copyright) + "</p>" +
       '<div class="flex items-center gap-6">' +
-      '<a href="' + href("privacy") + '" class="' + small + '">' + esc(t.footer.privacy) + "</a>" +
-      '<a href="' + href("terms") + '" class="' + small + '">' + esc(t.footer.terms) + "</a>" +
+      legal("privacy", t.footer.privacy) + legal("terms", t.footer.terms) +
       '<button data-scroll-top class="' + small + '">' + esc(t.footer.backToTop) + "</button>" +
       "</div></div></div>" +
+      (live("terms") ? "" : modal("terms", t.termsContent)) +
+      (live("privacy") ? "" : modal("privacy", t.privacyContent)) +
       "</footer>";
   }
 
@@ -230,7 +264,7 @@
     return '<div class="bg-[#F7F5F0] min-h-screen">' + nav(t, lang) + body + footer(t) + "</div>";
   }
 
-  var api = { page: page, ROUTES: ROUTES, PAGES: PAGES, path: path };
+  var api = { page: page, ROUTES: ROUTES, PAGES: PAGES, PUBLISHED: PUBLISHED, path: path };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.DEVA_RENDER = api;
 })(this);
