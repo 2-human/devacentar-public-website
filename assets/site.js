@@ -129,10 +129,10 @@
     opener = null;
   }
 
-  // The map loads only when asked for, so Google sets no cookies before the visitor chooses to see it.
+  // With MAP_ON_CLICK (render.js) the map loads only when asked for, so Google sets no cookies before that.
   function loadMap(btn) {
     var f = document.createElement("iframe");
-    f.title = "Centar DEVA Location";
+    f.title = btn.dataset.mapTitle || "Centar DEVA";
     f.src = btn.dataset.map;
     f.className = "w-full h-full border-0 grayscale opacity-70";
     btn.replaceWith(f);

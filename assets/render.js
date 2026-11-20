@@ -51,10 +51,10 @@
   var SIZES = { hero: "100vw", philosophy: "(min-width: 1024px) 50vw, 100vw", room: "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" };
   // Words the Base44 copy does not carry: image descriptions, the skip link, the map button.
   var WORDS = {
-    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora Centra DEVA", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori", photo: "Fotografija", about: "Opis",
+    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora Centra DEVA", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", mapTitle: "Centar DEVA na mapi", close: "Zatvori", photo: "Fotografija", about: "Opis",
       nav: "Glavna navigacija", lang: "Jezik", email: "Email: devacentar@gmail.com", viber: "Viber: +381 64 140 3475", whatsapp: "WhatsApp: +381 64 140 3475 (otvara se u novoj kartici)",
       share: "Podelite ovu stranicu", shareShort: "Podeli", copied: "Link je kopiran" },
-    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the Centar DEVA therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close", photo: "Photo", about: "Description",
+    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the Centar DEVA therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", mapTitle: "Centar DEVA on the map", close: "Close", photo: "Photo", about: "Description",
       nav: "Main navigation", lang: "Language", email: "Email: devacentar@gmail.com", viber: "Viber: +381 64 140 3475", whatsapp: "WhatsApp: +381 64 140 3475 (opens in a new tab)",
       share: "Share this page", shareShort: "Share", copied: "Link copied" }
   };
@@ -62,6 +62,10 @@
   // Room cards as two slides on phones (photo, then the room's text; swipe either way, site.js). Built and tested
   // 20 Nov 2026, switched off the same day until the operator has the room descriptions. Set true and rebuild to turn on.
   var ROOM_SLIDES = false;
+  // The map loads by itself (lazily, near the contact section): operator, 20 Nov 2026. true = a "show the map" button
+  // first, so Google sets no cookies until the visitor asks (the version of the SEO review, kept for later).
+  var MAP_ON_CLICK = false;
+  var MAP_URL = "https://maps.google.com/maps?q=Omladinskih%20Brigada%2076%2011070%20Novi%20Beograd&amp;z=15&amp;output=embed";
   // One place for the contact targets (header icons and footer buttons).
   var CONTACT = { email: "mailto:devacentar@gmail.com", viber: "viber://chat?number=%2B381641403475", whatsapp: "https://wa.me/381641403475" };
 
@@ -299,8 +303,10 @@
       "<div" + reveal(30, 1, 0, "footer") + ">" +
       '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.findUs) + "</p>" +
       '<div class="rounded-[3px] overflow-hidden h-[300px] md:h-[360px] bg-[#2D2824] relative">' +
-      '<button type="button" data-map="https://maps.google.com/maps?q=Omladinskih%20Brigada%2076%2011070%20Novi%20Beograd&amp;z=15&amp;output=embed" class="deva-map">' +
-      ICONS.mapPin(28, "deva-contact-icon") + '<span class="deva-map-show">' + esc(WORDS[C.lang].showMap) + '</span><span class="deva-map-note">' + esc(WORDS[C.lang].mapNote) + "</span></button>" +
+      (MAP_ON_CLICK
+        ? '<button type="button" data-map="' + MAP_URL + '" data-map-title="' + esc(WORDS[C.lang].mapTitle) + '" class="deva-map">' +
+          ICONS.mapPin(28, "deva-contact-icon") + '<span class="deva-map-show">' + esc(WORDS[C.lang].showMap) + '</span><span class="deva-map-note">' + esc(WORDS[C.lang].mapNote) + "</span></button>"
+        : '<iframe title="' + esc(WORDS[C.lang].mapTitle) + '" src="' + MAP_URL + '" class="w-full h-full border-0 grayscale opacity-70" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>') +
       "</div>" +
       '<a href="https://maps.google.com/?q=Omladinskih+Brigada+76+11070+Novi+Beograd" target="_blank" rel="noopener noreferrer" class="deva-address">' +
       ICONS.mapPin(16, "deva-contact-icon") + "<span>" + esc(t.footer.address1) + ", " + esc(t.footer.address2) + "</span></a>" +
