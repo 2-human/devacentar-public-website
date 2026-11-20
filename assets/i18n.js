@@ -177,7 +177,7 @@ window.DEVA_I18N = {
   },
   "privacyContent": {
    "title": "Privacy Policy",
-   "updated": "Last updated: 23.8.2026.",
+   "updated": "Last updated: 20.11.2026.",
    "intro": "Centar DEVA respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect your information.",
    "sections": [
     {
@@ -210,7 +210,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "8. Cookies",
-     "body": "Our website may use basic cookies to ensure proper functionality. We do not use cookies for tracking or advertising purposes."
+     "body": "Our website may use basic cookies to ensure proper functionality. We do not use cookies for tracking or advertising purposes.\n\nThe contact section shows an embedded Google Map. When it loads, Google may set its own cookies and receive technical data such as your IP address, under Google's privacy policy (https://policies.google.com/privacy). If you do not want this, you can block third-party cookies in your browser settings."
     },
     {
      "heading": "9. Changes to this policy",
@@ -403,7 +403,7 @@ window.DEVA_I18N = {
   },
   "privacyContent": {
    "title": "Politika privatnosti",
-   "updated": "Poslednje ažuriranje: 23.8.2026.",
+   "updated": "Poslednje ažuriranje: 20.11.2026.",
    "intro": "Centar DEVA poštuje vašu privatnost i posvećen je zaštiti vaših ličnih podataka. Ova Politika privatnosti objašnjava kako prikupljamo, koristimo i štitimo vaše podatke.",
    "sections": [
     {
@@ -436,7 +436,7 @@ window.DEVA_I18N = {
     },
     {
      "heading": "8. Kolačići (Cookies)",
-     "body": "Naš sajt može koristiti osnovne kolačiće radi pravilnog funkcionisanja. Ne koristimo kolačiće za praćenje ili reklamne svrhe."
+     "body": "Naš sajt može koristiti osnovne kolačiće radi pravilnog funkcionisanja. Ne koristimo kolačiće za praćenje ili reklamne svrhe.\n\nU delu za kontakt prikazana je ugrađena Google mapa. Kada se učita, Google može postaviti sopstvene kolačiće i primiti tehničke podatke, kao što je vaša IP adresa, u skladu sa Google politikom privatnosti (https://policies.google.com/privacy). Ako to ne želite, kolačiće trećih strana možete blokirati u podešavanjima pregledača."
     },
     {
      "heading": "9. Izmene politike",
