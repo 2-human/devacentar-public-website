@@ -118,8 +118,8 @@ window.DEVA_I18N = {
   "footer": {
    "findUs": "Find Us",
    "contact": "Contact",
-   "title1": "Begin with",
-   "title2": "a visit",
+   "title1": "Let's Connect",
+   "title2": "",
    "address1": "Omladinskih Brigada 76",
    "address2": "11070 Novi Beograd",
    "tour": "Request a Private Tour",
@@ -344,8 +344,8 @@ window.DEVA_I18N = {
   "footer": {
    "findUs": "Pronađite nas",
    "contact": "Kontakt",
-   "title1": "Počnite",
-   "title2": "posetom",
+   "title1": "Povežimo se",
+   "title2": "",
    "address1": "Omladinskih Brigada 76",
    "address2": "11070 Novi Beograd",
    "tour": "Zakažite privatni obilazak",

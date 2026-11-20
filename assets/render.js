@@ -185,7 +185,7 @@
       "</div>" +
       '<div class="flex flex-col justify-between"' + reveal(30, 1, 0.2, "footer") + "><div>" +
       '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.contact) + "</p>" +
-      '<h2 class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + "<br>" + esc(t.footer.title2) + "</h2>" +
+      '<h2 class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + (t.footer.title2 ? "<br>" + esc(t.footer.title2) : "") + "</h2>" +
       '<div class="deva-contact">' +
       '<a href="mailto:devacentar@gmail.com" class="deva-contact-btn">' + ICONS.mail(20, "deva-contact-icon") + "<span>" + esc(t.footer.email) + "</span></a>" +
       '<a href="viber://chat?number=%2B381641403475" class="deva-contact-btn">' + ICONS.viber(20, "deva-contact-icon") + "<span>" + esc(t.footer.viber) + "</span></a>" +
