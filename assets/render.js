@@ -49,8 +49,8 @@
   var SIZES = { hero: "100vw", philosophy: "(min-width: 1024px) 50vw, 100vw", room: "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" };
   // Words the Base44 copy does not carry: image descriptions, the skip link, the map button.
   var WORDS = {
-    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora Centra DEVA", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori" },
-    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the Centar DEVA therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close" }
+    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora Centra DEVA", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori", photo: "Fotografija", about: "Opis" },
+    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the Centar DEVA therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close", photo: "Photo", about: "Description" }
   };
   var YEAR = String(new Date().getFullYear());
 
@@ -149,6 +149,14 @@
       "</div></div></div></section>";
   }
 
+  // The text slide of a room card: its description, or its list of amenities.
+  function roomText(r) {
+    return (r.description ? '<p class="deva-room-desc">' + esc(r.description) + "</p>" : "") +
+      (r.amenities && r.amenities.length ? '<ul class="deva-room-list">' + r.amenities.map(function (a) {
+        return '<li><span class="deva-room-dash"></span>' + esc(a) + "</li>";
+      }).join("") + "</ul>" : "");
+  }
+
   function spaces(t) {
     var S = t.spaces;
     return '<section id="spaces" class="border-t border-[#E7DFD1] bg-[#F4EFE6]' + top("spaces") + '">' +
@@ -165,9 +173,17 @@
       S.rooms.map(function (r, i) {
         return '<div class="group"' + reveal(24, 1, 0.3 + i * 0.12, "spaces") + ">" +
           '<h3 class="font-display text-[#9A4A38] text-xl md:text-[1.4rem] leading-snug mb-4"' + ls + ">" + esc(r.name) + "</h3>" +
-          '<div class="relative overflow-hidden rounded-[4px] bg-[#EDE5D8] shadow-[0_22px_45px_-32px_rgba(45,40,36,0.55)]">' +
+          // On phones the card is two slides, photo and text; a swipe either way switches (site.js). Wider screens show the photo only.
+          '<div data-room data-slide="0" class="relative overflow-hidden rounded-[4px] bg-[#EDE5D8] shadow-[0_22px_45px_-32px_rgba(45,40,36,0.55)]" role="group" aria-roledescription="carousel" aria-label="' + esc(r.name) + '">' +
+          '<div class="deva-slide" data-panel="0">' +
           pic(IMG.spaces[i % IMG.spaces.length], r.name, "w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]", SIZES.room) +
+          "</div>" +
+          '<div class="deva-slide deva-room-text" data-panel="1" aria-hidden="true">' + roomText(r) + "</div>" +
           '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
+          '<div class="deva-dots">' +
+          '<button type="button" data-goto="0" aria-pressed="true" aria-label="' + esc(WORDS[C.lang].photo) + '"></button>' +
+          '<button type="button" data-goto="1" aria-pressed="false" aria-label="' + esc(WORDS[C.lang].about) + ": " + esc(r.name) + '"></button>' +
+          "</div>" +
           "</div></div>";
       }).join("") +
       "</div></div></section>";

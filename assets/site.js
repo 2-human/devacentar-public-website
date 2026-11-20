@@ -123,7 +123,46 @@
     btn.replaceWith(f);
   }
 
+  // Room cards on phones: two slides (photo, text). A swipe left or right switches to the other slide; the new one
+  // comes in from the side the finger moves away from, so both directions feel natural. Dots do the same on tap.
+  var PHONE = window.matchMedia ? window.matchMedia("(max-width: 639px)") : { matches: false };
+  function showSlide(card, to, dir) { // dir -1: content moves left (swipe left), +1: content moves right
+    var from = +card.dataset.slide;
+    if (to === from) return;
+    var out = card.querySelector('[data-panel="' + from + '"]'), inn = card.querySelector('[data-panel="' + to + '"]');
+    var t = REDUCE ? "none" : "transform .45s " + EASE;
+    inn.style.transition = "none"; inn.style.transform = "translateX(" + (-dir * 100) + "%)";
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      out.style.transition = t; inn.style.transition = t;
+      out.style.transform = "translateX(" + (dir * 100) + "%)"; inn.style.transform = "translateX(0)";
+    }); });
+    card.dataset.slide = to;
+    out.setAttribute("aria-hidden", "true"); inn.removeAttribute("aria-hidden");
+    card.querySelectorAll("[data-goto]").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.goto === to)); });
+  }
+  root.querySelectorAll("[data-room]").forEach(function (card) {
+    var x0 = null, y0 = 0;
+    card.addEventListener("touchstart", function (e) { if (!PHONE.matches) return; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    card.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.2) return; // a tap or a vertical scroll
+      showSlide(card, 1 - card.dataset.slide, dx < 0 ? -1 : 1);
+    }, { passive: true });
+  });
+  // Back on a wider screen, the photo is shown again.
+  if (PHONE.addEventListener) PHONE.addEventListener("change", function () {
+    root.querySelectorAll("[data-room]").forEach(function (card) {
+      card.dataset.slide = "0";
+      card.querySelectorAll("[data-panel]").forEach(function (p) { p.style.transition = "none"; p.style.transform = ""; });
+      card.querySelector('[data-panel="1"]').setAttribute("aria-hidden", "true"); card.querySelector('[data-panel="0"]').removeAttribute("aria-hidden");
+      card.querySelectorAll("[data-goto]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.goto === "0")); });
+    });
+  });
+
   root.addEventListener("click", function (e) {
+    var g = e.target.closest("[data-goto]");
+    if (g) { var card = g.closest("[data-room]"); showSlide(card, +g.dataset.goto, +g.dataset.goto > +card.dataset.slide ? -1 : 1); return; }
     var t = e.target.closest("[data-menu-open],[data-menu-close],[data-scroll-to],[data-scroll-top],[data-modal-open],[data-modal-close],[data-modal],[data-modal-panel],[data-map]");
     if (!t) return;
     if (t.hasAttribute("data-modal-panel")) return; // clicks inside a dialog panel don't close it
