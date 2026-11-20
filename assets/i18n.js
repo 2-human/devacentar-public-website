@@ -130,7 +130,8 @@ window.DEVA_I18N = {
    "backToTop": "Back to top ↑",
    "email": "Email",
    "viber": "Viber",
-   "whatsapp": "WhatsApp"
+   "whatsapp": "WhatsApp",
+   "followUs": "Follow us"
   },
   "termsContent": {
    "title": "Terms of Use",
@@ -356,7 +357,8 @@ window.DEVA_I18N = {
    "backToTop": "Nazad na vrh ↑",
    "email": "Email",
    "viber": "Viber",
-   "whatsapp": "WhatsApp"
+   "whatsapp": "WhatsApp",
+   "followUs": "Pratite nas"
   },
   "termsContent": {
    "title": "Uslovi korišćenja",
@@ -452,5 +454,8 @@ window.DEVA_I18N = {
    "full": "Zakažite obilazak",
    "short": "Obilazak"
   }
+ },
+ "site": {
+  "social": []
  }
 };
