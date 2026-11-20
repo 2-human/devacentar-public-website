@@ -28,8 +28,11 @@ const STYLE = "[hidden]{display:none!important}" +
   ".deva-address{display:inline-flex;align-items:center;gap:10px;margin-top:16px;font-size:14px;color:rgba(247,245,240,.6);text-decoration:none;transition:color .5s}" +
   ".deva-address .deva-contact-icon{color:#B05A47}.deva-address:hover{color:#F7F5F0}" +
   // social links under the contact buttons (only when render.js draws them)
-  ".deva-social{margin-top:40px}.deva-social-list{display:flex;flex-wrap:wrap;gap:4px 24px;list-style:none;margin:0;padding:0}" +
-  ".deva-social-link{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:15px;color:rgba(247,245,240,.78);text-decoration:none;transition:color .5s}.deva-social-link:hover{color:#F7F5F0}" +
+  ".deva-social{display:flex;align-items:center;justify-content:center;gap:4px;text-align:center}" +
+  ".deva-social-label{font-size:14px;color:rgba(247,245,240,.6)}" +
+  ".deva-social-link{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;color:rgba(247,245,240,.78);text-decoration:none;transition:color .5s}.deva-social-link:hover{color:#F7F5F0}" +
+  ".deva-footer-bar>*{max-width:100%}.deva-footer-links{flex-wrap:wrap;justify-content:center}" +
+  "@media(min-width:640px){.deva-footer-bar{display:grid;grid-template-columns:1fr auto 1fr}.deva-footer-copy{justify-self:start}.deva-footer-links{justify-self:end;grid-column:3}}" +
   // skip link: hidden until it gets keyboard focus
   ".deva-skip{position:absolute;left:16px;top:-60px;z-index:300;padding:10px 16px;background:#2D2824;color:#F7F5F0;border-radius:3px;font-size:14px;text-decoration:none;transition:top .2s}" +
   ".deva-skip:focus{top:16px}main:focus{outline:none}" +

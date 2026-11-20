@@ -303,11 +303,11 @@
     var list = (C.site.social || []).filter(function (s) { return NETWORKS[s.network] && /^https:\/\//.test(s.url || ""); });
     if (!list.length) return "";
     var tab = C.lang === "sr" ? " (otvara se u novoj kartici)" : " (opens in a new tab)";
-    return '<div class="deva-social"><p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-4">' + esc(t.footer.followUs) + "</p>" +
-      '<ul class="deva-social-list">' + list.map(function (s) {
-        return '<li><a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer" class="deva-social-link">' + ICONS[s.network](20, "deva-contact-icon") +
-          "<span>" + esc(s.handle || NETWORKS[s.network]) + '</span><span class="deva-sr">' + esc((s.handle ? " · " + NETWORKS[s.network] : "") + tab) + "</span></a></li>";
-      }).join("") + "</ul></div>";
+    return '<div class="deva-social"><span class="deva-social-label">' + esc(t.footer.followUs) + "</span>" +
+      list.map(function (s) {
+        return '<a href="' + esc(s.url) + '" target="_blank" rel="noopener noreferrer" class="deva-social-link">' + ICONS[s.network](22, "deva-contact-icon") +
+          '<span class="deva-sr">' + esc(NETWORKS[s.network] + (s.handle ? " " + s.handle : "") + tab) + "</span></a>";
+      }).join("") + "</div>";
   }
 
   function footer(t) {
@@ -340,10 +340,11 @@
       '<a href="' + CONTACT.viber + '" class="deva-contact-btn">' + ICONS.viber(20, "deva-contact-icon") + "<span>" + esc(t.footer.viber) + "</span></a>" +
       '<a href="' + CONTACT.email + '" class="deva-contact-btn">' + ICONS.mail(20, "deva-contact-icon") + "<span>" + esc(t.footer.email) + "</span></a>" +
       '<button type="button" data-share data-copied="' + esc(WORDS[C.lang].copied) + '" class="deva-contact-btn">' + ICONS.share(20, "deva-contact-icon") + "<span>" + esc(WORDS[C.lang].shareShort) + "</span></button>" +
-      "</div>" + social(t) + "</div></div></div>" +
-      '<div class="mt-20 pt-8 border-t border-[#F7F5F0]/10 flex flex-col sm:flex-row items-center justify-between gap-4">' +
-      '<p class="font-body text-sm text-[#F7F5F0]/40">' + esc(t.footer.copyright.replace(/\d{4}/, YEAR)) + "</p>" +
-      '<div class="flex items-center gap-6">' +
+      "</div></div></div></div>" +
+      '<div class="deva-footer-bar mt-20 pt-8 border-t border-[#F7F5F0]/10 flex flex-col items-center gap-4">' +
+      '<p class="font-body text-sm text-[#F7F5F0]/40 deva-footer-copy">' + esc(t.footer.copyright.replace(/\d{4}/, YEAR)) + "</p>" +
+      social(t) +
+      '<div class="flex items-center gap-6 deva-footer-links">' +
       legal("privacy", t.footer.privacy) + legal("terms", t.footer.terms) +
       '<button data-scroll-top class="' + small + '">' + esc(t.footer.backToTop) + "</button>" +
       "</div></div></div>" +

@@ -456,6 +456,8 @@ window.DEVA_I18N = {
   }
  },
  "site": {
-  "social": []
+  "social": [
+   { "network": "instagram", "url": "https://www.instagram.com/centardeva", "handle": "@centardeva" }
+  ]
  }
 };
