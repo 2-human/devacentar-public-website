@@ -37,6 +37,22 @@
     philosophy: "assets/img/philosophy.jpg",
     spaces: ["assets/img/space-1.jpg", "assets/img/space-2.jpg", "assets/img/space-3.jpg"]
   };
+  // Sizes written by tools/build-images.py (assets/img/opt/<name>-<w>.webp) and each original's pixel size.
+  var IMG_SIZES = {
+    hero: { w: [640, 1024], px: [1024, 547] },
+    philosophy: { w: [480, 800, 1200], px: [1200, 1600] },
+    "space-1": { w: [480, 800, 1095], px: [1095, 1436] },
+    "space-2": { w: [480, 800, 1095], px: [1095, 1437] },
+    "space-3": { w: [480, 800, 1254], px: [1254, 1254] }
+  };
+  // How wide each image is drawn, for the browser to pick a size.
+  var SIZES = { hero: "100vw", philosophy: "(min-width: 1024px) 50vw, 100vw", room: "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" };
+  // Words the Base44 copy does not carry: image descriptions, the skip link, the map button.
+  var WORDS = {
+    sr: { heroAlt: "Sunčana ulica u blizini terapijskog prostora", philosophyAlt: "Topao enterijer terapijskog prostora DEVA Hub", skip: "Preskoči na sadržaj", showMap: "Prikaži mapu", mapNote: "Učitava Google mape", close: "Zatvori" },
+    en: { heroAlt: "Sunlit street scene near the therapy space", philosophyAlt: "Warm interior of the DEVA Hub therapy space", skip: "Skip to content", showMap: "Show the map", mapNote: "Loads Google Maps", close: "Close" }
+  };
+  var YEAR = String(new Date().getFullYear());
 
   // One folder per language and page. dict key: en / sr; slug: en / rs (Serbian is the default, the root forwards to rs/).
   var ROUTES = {
@@ -53,6 +69,13 @@
   var C; // the page being rendered: { lang, page, base }
   var href = function (page, lang) { return C.base + path(lang || C.lang, page); };
   var img = function (src) { return C.base + src; };
+  // <img> with WebP srcset, pixel size (no layout shift), lazy unless it is the first screen.
+  var pic = function (src, alt, cls, sizes, first) {
+    var name = src.split("/").pop().replace(/\.[a-z]+$/, ""), S = IMG_SIZES[name];
+    return '<img src="' + img(src) + '"' +
+      (S ? ' srcset="' + S.w.map(function (w) { return img("assets/img/opt/" + name + "-" + w + ".webp") + " " + w + "w"; }).join(", ") + '" sizes="' + sizes + '" width="' + S.px[0] + '" height="' + S.px[1] + '"' : "") +
+      ' alt="' + esc(alt) + '" class="' + cls + '"' + (first ? ' fetchpriority="high"' : ' loading="lazy" decoding="async"') + ">";
+  };
   var live = function (page) { return PUBLISHED.indexOf(page) >= 0; };
   // href (and scroll hook) for a link to one of the pages
   var go = function (page) {
@@ -92,13 +115,13 @@
   function hero(t) {
     return '<section class="relative h-screen w-full overflow-hidden">' +
       '<div data-parallax class="absolute inset-0 will-change-transform" style="transform: translateY(0px);">' +
-      '<img src="' + img(IMG.hero) + '" alt="Sunlit street scene near the therapy space" class="w-full h-[120%] object-cover">' +
+      pic(IMG.hero, WORDS[C.lang].heroAlt, "w-full h-[120%] object-cover", SIZES.hero, true) +
       '<div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/65"></div>' +
       "</div>" +
       '<div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center opacity-100">' +
       // The "DEVA Hub" label above the heading was dropped on 20 Nov 2026 (operator); hero.brand still names the site in titles.
-      '<h1 data-intro="30,1.2,0" class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
-      esc(t.hero.title1) + "<br>" + esc(t.hero.title2) + "</h1>" +
+      '<h1 class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
+      esc(t.hero.title1) + " <br>" + esc(t.hero.title2) + "</h1>" +
       '<a' + go("spaces") + ' data-intro="20,1,0.7" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</a>" +
       "</div></section>";
   }
@@ -107,7 +130,7 @@
   function heading(label, title1, title2, h) {
     h = h || "h2";
     return '<p class="font-body text-[#9A4A38]/80 text-[11px] tracking-[0.28em] uppercase mb-5">' + esc(label) + "</p>" +
-      "<" + h + ' class="font-display text-[#9A4A38] text-3xl md:text-[2.35rem] lg:text-[2.9rem] leading-[1.14]"' + ls + ">" + esc(title1) + (title2 ? "<br>" + esc(title2) : "") + "</" + h + ">";
+      "<" + h + ' class="font-display text-[#9A4A38] text-3xl md:text-[2.35rem] lg:text-[2.9rem] leading-[1.14]"' + ls + ">" + esc(title1) + (title2 ? " <br>" + esc(title2) : "") + "</" + h + ">";
   }
   // On a section's own page the section starts below the fixed bar and its heading is the page's h1.
   var own = function (page) { return C.page === page; };
@@ -121,7 +144,7 @@
       "<div" + reveal(30, 1, 0, "philosophy") + '><div class="">' + heading(P.label, P.title1, P.title2) + "</div>" +
       '<p class="mt-8 font-body text-[#2D2824]/70 text-lg leading-relaxed max-w-md">' + esc(P.intro) + "</p></div>" +
       '<div class="relative overflow-hidden rounded-[3px]"' + reveal(30, 1, 0.2, "philosophy") + ">" +
-      '<img src="' + img(IMG.philosophy) + '" alt="Warm interior of the DEVA Hub therapy space" class="w-full h-[340px] md:h-[440px] lg:h-[500px] object-cover">' +
+      pic(IMG.philosophy, WORDS[C.lang].philosophyAlt, "w-full h-[340px] md:h-[440px] lg:h-[500px] object-cover", SIZES.philosophy) +
       '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
       "</div></div></div></section>";
   }
@@ -143,7 +166,7 @@
         return '<div class="group"' + reveal(24, 1, 0.3 + i * 0.12, "spaces") + ">" +
           '<h3 class="font-display text-[#9A4A38] text-xl md:text-[1.4rem] leading-snug mb-4"' + ls + ">" + esc(r.name) + "</h3>" +
           '<div class="relative overflow-hidden rounded-[4px] bg-[#EDE5D8] shadow-[0_22px_45px_-32px_rgba(45,40,36,0.55)]">' +
-          '<img src="' + img(IMG.spaces[i % IMG.spaces.length]) + '" alt="' + esc(r.name) + '" class="w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]">' +
+          pic(IMG.spaces[i % IMG.spaces.length], r.name, "w-full h-[280px] md:h-[340px] lg:h-[400px] object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]", SIZES.room) +
           '<div class="absolute inset-0 ring-1 ring-inset ring-[#2D2824]/10 pointer-events-none"></div>' +
           "</div></div>";
       }).join("") +
@@ -180,7 +203,7 @@
 
   // Privacy and terms, as pages (they were dialogs in the Base44 build); same type and colours as its dialog.
   function doc(c) {
-    return '<main class="bg-[#F5F4EE] text-[#262A22] deva-page-top">' +
+    return '<section class="bg-[#F5F4EE] text-[#262A22] deva-page-top">' +
       '<div class="max-w-[1400px] mx-auto px-6 md:px-10 py-24 md:py-32"><div class="max-w-2xl">' +
       '<p class="font-body text-[#5A7048] text-xs tracking-widest uppercase mb-1">' + esc(c.updated) + "</p>" +
       '<h1 class="font-display text-2xl md:text-3xl mb-8"' + ls + ">" + esc(c.title) + "</h1>" +
@@ -190,19 +213,19 @@
         return '<div><h2 class="font-display text-lg mb-2 text-[#262A22]">' + esc(s.heading) + "</h2>" +
           '<p class="font-body text-sm md:text-base text-[#262A22]/70 leading-relaxed whitespace-pre-line">' + esc(s.body) + "</p></div>";
       }).join("") +
-      "</div></div></div></main>";
+      "</div></div></div></section>";
   }
 
   // The Base44 build's dialog, used for privacy/terms while their pages are not published.
   function modal(name, c) {
-    return '<div data-modal="' + name + '" hidden class="fixed inset-0 z-[200] bg-[#262A22]/80 backdrop-blur-sm flex items-start md:items-center justify-center p-4 md:p-8 overflow-y-auto">' +
+    return '<div data-modal="' + name + '" role="dialog" aria-modal="true" aria-labelledby="dlg-' + name + '" hidden class="fixed inset-0 z-[200] bg-[#262A22]/80 backdrop-blur-sm flex items-start md:items-center justify-center p-4 md:p-8 overflow-y-auto">' +
       '<div data-modal-panel class="bg-[#F5F4EE] text-[#262A22] rounded-[6px] w-full max-w-2xl my-8 relative">' +
       '<div class="sticky top-0 bg-[#F5F4EE] flex items-center justify-between px-8 md:px-10 pt-8 pb-4 border-b border-[#DDE0D5] rounded-t-[6px]">' +
       '<div><p class="font-body text-[#5A7048] text-xs tracking-widest uppercase mb-1">' + esc(c.updated) + "</p>" +
-      '<h2 class="font-display text-2xl md:text-3xl"' + ls + ">" + esc(c.title) + "</h2></div>" +
-      '<button data-modal-close aria-label="Close" class="text-[#262A22] hover:text-[#5A7048] transition-colors duration-500 flex-shrink-0 ml-4">' + ICONS.x(22) + "</button>" +
+      '<h2 id="dlg-' + name + '" class="font-display text-2xl md:text-3xl"' + ls + ">" + esc(c.title) + "</h2></div>" +
+      '<button data-modal-close aria-label="' + esc(WORDS[C.lang].close) + '" class="text-[#262A22] hover:text-[#5A7048] transition-colors duration-500 flex-shrink-0 ml-4">' + ICONS.x(22) + "</button>" +
       "</div>" +
-      '<div class="px-8 md:px-10 py-8 max-h-[60vh] overflow-y-auto">' +
+      '<div tabindex="0" class="px-8 md:px-10 py-8 max-h-[60vh] overflow-y-auto">' +
       '<p class="font-body text-sm md:text-base text-[#262A22]/70 mb-8 leading-relaxed">' + esc(c.intro) + "</p>" +
       '<div class="space-y-6">' +
       c.sections.map(function (s) {
@@ -225,21 +248,22 @@
       "<div" + reveal(30, 1, 0, "footer") + ">" +
       '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.findUs) + "</p>" +
       '<div class="rounded-[3px] overflow-hidden h-[300px] md:h-[360px] bg-[#2D2824] relative">' +
-      '<iframe title="Centar DEVA Location" src="https://maps.google.com/maps?q=Omladinskih%20Brigada%2076%2011070%20Novi%20Beograd&amp;z=15&amp;output=embed" class="w-full h-full border-0 grayscale opacity-70" loading="lazy"></iframe>' +
+      '<button type="button" data-map="https://maps.google.com/maps?q=Omladinskih%20Brigada%2076%2011070%20Novi%20Beograd&amp;z=15&amp;output=embed" class="deva-map">' +
+      ICONS.mapPin(28, "deva-contact-icon") + '<span class="deva-map-show">' + esc(WORDS[C.lang].showMap) + '</span><span class="deva-map-note">' + esc(WORDS[C.lang].mapNote) + "</span></button>" +
       "</div>" +
       '<a href="https://maps.google.com/?q=Omladinskih+Brigada+76+11070+Novi+Beograd" target="_blank" rel="noopener noreferrer" class="deva-address">' +
       ICONS.mapPin(16, "deva-contact-icon") + "<span>" + esc(t.footer.address1) + ", " + esc(t.footer.address2) + "</span></a>" +
       "</div>" +
       '<div class="flex flex-col justify-between"' + reveal(30, 1, 0.2, "footer") + "><div>" +
       '<p class="font-body text-[#B05A47] text-[11px] tracking-[0.25em] uppercase mb-6">' + esc(t.footer.contact) + "</p>" +
-      "<" + h + ' class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + (t.footer.title2 ? "<br>" + esc(t.footer.title2) : "") + "</" + h + ">" +
+      "<" + h + ' class="font-display text-3xl md:text-4xl lg:text-5xl leading-tight mb-10"' + ls + ">" + esc(t.footer.title1) + (t.footer.title2 ? " <br>" + esc(t.footer.title2) : "") + "</" + h + ">" +
       '<div class="deva-contact">' +
       '<a href="mailto:devacentar@gmail.com" class="deva-contact-btn">' + ICONS.mail(20, "deva-contact-icon") + "<span>" + esc(t.footer.email) + "</span></a>" +
       '<a href="viber://chat?number=%2B381641403475" class="deva-contact-btn">' + ICONS.viber(20, "deva-contact-icon") + "<span>" + esc(t.footer.viber) + "</span></a>" +
       '<a href="https://wa.me/381641403475" target="_blank" rel="noopener noreferrer" class="deva-contact-btn">' + ICONS.whatsapp(20, "deva-contact-icon") + "<span>" + esc(t.footer.whatsapp) + "</span></a>" +
       "</div></div></div></div>" +
       '<div class="mt-20 pt-8 border-t border-[#F7F5F0]/10 flex flex-col sm:flex-row items-center justify-between gap-4">' +
-      '<p class="font-body text-sm text-[#F7F5F0]/40">' + esc(t.footer.copyright) + "</p>" +
+      '<p class="font-body text-sm text-[#F7F5F0]/40">' + esc(t.footer.copyright.replace(/\d{4}/, YEAR)) + "</p>" +
       '<div class="flex items-center gap-6">' +
       legal("privacy", t.footer.privacy) + legal("terms", t.footer.terms) +
       '<button data-scroll-top class="' + small + '">' + esc(t.footer.backToTop) + "</button>" +
@@ -261,7 +285,8 @@
       privacy: function () { return doc(t.privacyContent); },
       terms: function () { return doc(t.termsContent); }
     }[ctx.page]();
-    return '<div class="bg-[#F7F5F0] min-h-screen">' + nav(t, lang) + body + footer(t) + "</div>";
+    return '<div class="bg-[#F7F5F0] min-h-screen">' + '<a href="#main" class="deva-skip">' + esc(WORDS[lang].skip) + "</a>" +
+      nav(t, lang) + '<main id="main" tabindex="-1">' + body + "</main>" + footer(t) + "</div>";
   }
 
   var api = { page: page, ROUTES: ROUTES, PAGES: PAGES, PUBLISHED: PUBLISHED, path: path };

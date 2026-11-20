@@ -2,46 +2,43 @@
  * Centar DEVA — behaviour, vanilla port of the Base44 React build.
  * Every page is prerendered per language (rs/, en/; tools/build-website.mjs), so this file only
  * adds behaviour: nav background after 60px, fullscreen menu, hero parallax (0.3x), in-view
- * reveals (framer-motion ease [0.2,0,0.2,1]), in-page scrolling, the privacy/terms dialogs and
- * back to top. The language switch is a plain link to the other language's page.
+ * reveals (framer-motion ease [0.2,0,0.2,1]), in-page scrolling, the privacy/terms dialogs,
+ * the click-to-load map and back to top. The language switch is a plain link to the other
+ * language's page. With "reduce motion" set in the system, nothing animates and scrolling jumps.
  */
 (function () {
   var EASE = "cubic-bezier(0.2, 0, 0.2, 1)";
   var NAV_SCROLLED = ["bg-[#F7F5F0]/90", "backdrop-blur-md", "border-b", "border-[#EBE8E3]"];
+  var REDUCE = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var root = document.getElementById("root");
 
   var animate = function (el, y, dur, delay) {
-    el.style.transition = "opacity " + dur + "s " + EASE + " " + delay + "s, transform " + dur + "s " + EASE + " " + delay + "s";
+    el.style.transition = REDUCE ? "none" : "opacity " + dur + "s " + EASE + " " + delay + "s, transform " + dur + "s " + EASE + " " + delay + "s";
     el.style.opacity = "1";
     el.style.transform = "none";
   };
   var hide = function (el, y) {
+    if (REDUCE) return;
     el.style.transition = "none";
     el.style.opacity = "0";
     el.style.transform = y ? "translateY(" + y + "px)" : "none";
   };
   var parse = function (v) { return v.split(","); };
+  var behavior = REDUCE ? "auto" : "smooth";
   var scrollTo = function (sel) {
     var el = document.querySelector(sel);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) el.scrollIntoView({ behavior: behavior });
   };
 
-  var observer;
-  function setupReveals(instant) {
-    if (observer) observer.disconnect();
-    var reveals = root.querySelectorAll("[data-reveal]");
-    if (instant) { // language switch: content already seen, keep it visible
-      reveals.forEach(function (el) { el.style.opacity = "1"; el.style.transform = "none"; });
-      return;
-    }
-    reveals.forEach(function (el) { hide(el, +parse(el.dataset.reveal)[0]); });
+  function setupReveals() {
+    if (REDUCE) return; // everything is visible as rendered
+    root.querySelectorAll("[data-reveal]").forEach(function (el) { hide(el, +parse(el.dataset.reveal)[0]); });
     root.querySelectorAll("[data-intro]").forEach(function (el) {
       var p = parse(el.dataset.intro);
       hide(el, +p[0]);
       requestAnimationFrame(function () { requestAnimationFrame(function () { animate(el, +p[0], +p[1], +p[2]); }); });
     });
-    var groups = root.querySelectorAll("[data-reveal-group]");
-    groups.forEach(function (g) {
+    root.querySelectorAll("[data-reveal-group]").forEach(function (g) {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (en) {
           if (!en.isIntersecting) return;
@@ -66,7 +63,7 @@
       if (from !== to) { el.classList.remove(from); el.classList.add(to); }
     });
     var px = root.querySelector("[data-parallax]");
-    if (px) px.style.transform = "translateY(" + window.scrollY * 0.3 + "px)";
+    if (px && !REDUCE) px.style.transform = "translateY(" + window.scrollY * 0.3 + "px)";
   }
 
   function openMenu() {
@@ -81,35 +78,53 @@
   }
   function closeMenu() {
     var m = root.querySelector("[data-menu]");
-    m.style.transition = "opacity 0.5s " + EASE;
+    m.style.transition = REDUCE ? "none" : "opacity 0.5s " + EASE;
     m.style.opacity = "0";
-    setTimeout(function () { m.hidden = true; }, 500);
+    setTimeout(function () { m.hidden = true; }, REDUCE ? 0 : 500);
   }
 
-  // Privacy and terms dialogs (while their pages are not published).
-  function openModal(name) {
+  // Privacy and terms dialogs (while their pages are not published): focus moves into the dialog, Tab stays in it,
+  // and focus returns to the button that opened it.
+  var opener = null;
+  var focusables = function (m) {
+    return [].filter.call(m.querySelectorAll('a[href],button,[tabindex]:not([tabindex="-1"])'), function (el) { return !el.disabled && el.offsetParent !== null; });
+  };
+  function openModal(name, from) {
     var m = root.querySelector('[data-modal="' + name + '"]');
     var p = m.querySelector("[data-modal-panel]");
+    opener = from || document.activeElement;
     m.hidden = false;
     document.body.style.overflow = "hidden";
     hide(m, 0);
-    p.style.transition = "none"; p.style.opacity = "0"; p.style.transform = "translateY(30px) scale(0.98)";
+    if (!REDUCE) { p.style.transition = "none"; p.style.opacity = "0"; p.style.transform = "translateY(30px) scale(0.98)"; }
     requestAnimationFrame(function () { requestAnimationFrame(function () {
       animate(m, 0, 0.4, 0);
       animate(p, 30, 0.5, 0);
+      var close = m.querySelector("[data-modal-close]"); if (close) close.focus();
     }); });
   }
   function closeModal(m) {
     var p = m.querySelector("[data-modal-panel]");
-    m.style.transition = "opacity 0.4s " + EASE; m.style.opacity = "0";
-    p.style.transition = "opacity 0.5s " + EASE + ", transform 0.5s " + EASE;
-    p.style.opacity = "0"; p.style.transform = "translateY(30px) scale(0.98)";
+    m.style.transition = REDUCE ? "none" : "opacity 0.4s " + EASE; m.style.opacity = "0";
+    p.style.transition = REDUCE ? "none" : "opacity 0.5s " + EASE + ", transform 0.5s " + EASE;
+    p.style.opacity = "0"; if (!REDUCE) p.style.transform = "translateY(30px) scale(0.98)";
     document.body.style.overflow = "";
-    setTimeout(function () { m.hidden = true; }, 500);
+    setTimeout(function () { m.hidden = true; }, REDUCE ? 0 : 500);
+    if (opener && opener.focus) opener.focus();
+    opener = null;
+  }
+
+  // The map loads only when asked for, so Google sets no cookies before the visitor chooses to see it.
+  function loadMap(btn) {
+    var f = document.createElement("iframe");
+    f.title = "Centar DEVA Location";
+    f.src = btn.dataset.map;
+    f.className = "w-full h-full border-0 grayscale opacity-70";
+    btn.replaceWith(f);
   }
 
   root.addEventListener("click", function (e) {
-    var t = e.target.closest("[data-menu-open],[data-menu-close],[data-scroll-to],[data-scroll-top],[data-modal-open],[data-modal-close],[data-modal],[data-modal-panel]");
+    var t = e.target.closest("[data-menu-open],[data-menu-close],[data-scroll-to],[data-scroll-top],[data-modal-open],[data-modal-close],[data-modal],[data-modal-panel],[data-map]");
     if (!t) return;
     if (t.hasAttribute("data-modal-panel")) return; // clicks inside a dialog panel don't close it
     if (t.hasAttribute("data-menu-open")) openMenu();
@@ -118,19 +133,27 @@
       e.preventDefault();
       if (t.hasAttribute("data-menu-item")) closeMenu();
       scrollTo(t.dataset.scrollTo);
-    } else if (t.hasAttribute("data-scroll-top")) window.scrollTo({ top: 0, behavior: "smooth" });
-    else if (t.hasAttribute("data-modal-open")) openModal(t.dataset.modalOpen);
+    } else if (t.hasAttribute("data-scroll-top")) window.scrollTo({ top: 0, behavior: behavior });
+    else if (t.hasAttribute("data-modal-open")) openModal(t.dataset.modalOpen, t);
     else if (t.hasAttribute("data-modal-close")) closeModal(t.closest("[data-modal]"));
     else if (t.hasAttribute("data-modal")) closeModal(t);
+    else if (t.hasAttribute("data-map")) loadMap(t);
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key !== "Escape") return;
     var open = root.querySelector("[data-modal]:not([hidden])");
-    if (open) closeModal(open);
-    else if (!root.querySelector("[data-menu]").hidden) closeMenu();
+    if (e.key === "Escape") {
+      if (open) closeModal(open);
+      else if (!root.querySelector("[data-menu]").hidden) closeMenu();
+    } else if (e.key === "Tab" && open) { // keep focus inside the open dialog
+      var f = focusables(open); if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      else if (!open.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+    }
   });
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  setupReveals(false);
+  setupReveals();
   onScroll();
 })();
