@@ -231,17 +231,17 @@ window.DEVA_I18N = {
  "sr": {
   "nav": {
    "menu": "Meni",
-   "spaces": "Prostori",
+   "spaces": "Prostor",
    "membership": "Članarine",
    "community": "Zajednica",
    "contact": "Kontakt"
   },
   "hero": {
    "brand": "Centar DEVA",
-   "title1": "Terapijski prostori za",
+   "title1": "Terapijski prostor za",
    "title2": "profesionalnu praksu",
    "subtitle": "Centar DEVA pruža namenske terapijske i savetodavne prostorije za praktičare, psihoterapeute i male terapijske grupe u Novom Beogradu.",
-   "cta": "Pogledajte prostore"
+   "cta": "Pogledajte prostor"
   },
   "philosophy": {
    "label": "Centar DEVA",
@@ -250,7 +250,7 @@ window.DEVA_I18N = {
    "intro": "Prostor Centra DEVA prvenstveno je namenjen psihoterapijskoj i savetodavnoj delatnosti, u mirnom okruženju stvorenom za nesmetan i posvećen rad."
   },
   "spaces": {
-   "label": "Prostori",
+   "label": "Prostor",
    "title1": "Prostor koji prati",
    "title2": "vaš ritam",
    "points": [
@@ -410,7 +410,7 @@ window.DEVA_I18N = {
    "sections": [
     {
      "heading": "1. Podaci koje prikupljamo",
-     "body": "Prikupljamo sledeće vrste ličnih podataka:\n\n- Kontakt podaci: ime, imejl adresa i broj telefona koje ste dostavili prilikom rezervacije ili upita.\n- Podaci o rezervaciji: rezervisani datumi, termini i izabrani prostori.\n- Evidencija komunikacije: prepiska putem imejla ili telefona.\n\nNe prikupljamo osetljive podatke koji se odnose na terapijski rad obavljen u prostoru."
+     "body": "Prikupljamo sledeće vrste ličnih podataka:\n\n- Kontakt podaci: ime, imejl adresa i broj telefona koje ste dostavili prilikom rezervacije ili upita.\n- Podaci o rezervaciji: rezervisani datumi, termini i izabrani prostor.\n- Evidencija komunikacije: prepiska putem imejla ili telefona.\n\nNe prikupljamo osetljive podatke koji se odnose na terapijski rad obavljen u prostoru."
     },
     {
      "heading": "2. Svrha obrade podataka",
