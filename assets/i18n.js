@@ -294,7 +294,7 @@ window.DEVA_I18N = {
    "title": "Izaberi svoj ritam",
    "tiers": [
     {
-     "subtitle": "Za terapeute kojima je potreban povremeni prostor",
+     "subtitle": "Za terapeute kojima je povremeno potreban prostor",
      "philosophy": "Pojedinačni zakup",
      "price": "800 RSD / 7 €",
      "unit": "po terminu",
@@ -457,7 +457,11 @@ window.DEVA_I18N = {
  },
  "site": {
   "social": [
-   { "network": "instagram", "url": "https://www.instagram.com/centardeva", "handle": "@centardeva" }
+   {
+    "network": "instagram",
+    "url": "https://www.instagram.com/centardeva",
+    "handle": "@centardeva"
+   }
   ]
  }
 };
