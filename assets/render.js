@@ -132,7 +132,7 @@
       '<path' + tone("deva-c-hero", "deva-c-bar") + ' class="' + (hero ? "deva-c-hero" : "deva-c-bar") + '" d="' + BRAND_NAME.top + '"/><path d="' + BRAND_NAME.main + '"/></svg>' +
       '<span class="deva-sr">Centar DEVA</span></a>' +
       '<div class="flex items-center deva-nav-right">' +
-      '<ul class="deva-nav-icons">' + icon("whatsapp", ICONS.whatsapp(18)) + icon("viber", ICONS.viber(18)) + icon("email", ICONS.mail(18)) +
+      '<ul class="deva-nav-icons">' + icon("whatsapp", ICONS.whatsapp(18)) + icon("email", ICONS.mail(18)) +
       // share: the device's share sheet, or the link copied (site.js); last of the icons, before the menu button
       '<li><button type="button" data-share data-copied="' + esc(W.copied) + '" aria-label="' + esc(W.share) + '" title="' + esc(W.share) + '"' +
       tone("text-[#F7F5F0]/80", "text-[#2D2824]/70") + ' class="deva-nav-icon transition-colors duration-500 hover:text-[#B05A47] ' + (hero ? "text-[#F7F5F0]/80" : "text-[#2D2824]/70") + '">' + ICONS.share(18) + "</button></li>" +
