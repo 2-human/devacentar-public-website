@@ -19,6 +19,7 @@ const CONTRAST = String.raw`.text-\[\#9A4A38\]\/80{color:rgba(154,74,56,.92)}` +
   String.raw`.text-\[\#F7F5F0\]\/40{color:rgba(247,245,240,.55)}`;                            // footer fine print: 3.4 -> 4.6
 const esc = (t) => String(t).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const STYLE = "[hidden]{display:none!important}" +
+  "@media (max-width:639px){.deva-hero-line{white-space:nowrap}h1:has(>.deva-hero-line){font-size:min(2.25rem,7vw)}}" +
   ".deva-page-top{padding-top:64px}" +
   ".deva-contact{display:flex;flex-direction:column;gap:12px;max-width:420px}" +
   ".deva-contact-btn{display:flex;align-items:center;gap:16px;padding:18px 24px;border:1px solid rgba(247,245,240,.18);border-radius:3px;font-family:inherit;font-size:16px;letter-spacing:.02em;color:#F7F5F0;text-decoration:none;transition:background-color .5s,border-color .5s,color .5s}" +

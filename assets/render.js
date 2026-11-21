@@ -169,7 +169,7 @@
       '<div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center opacity-100">' +
       // No label above the heading (dropped 20 Nov 2026, operator); hero.brand ("Centar DEVA") names the site in titles.
       '<h1 class="leading-[1.05] max-w-4xl [font-family:\'Playfair_Display\',_Georgia,_\'Times_New_Roman\',_serif] font-normal text-[#F7F5F0] text-4xl sm:text-5xl md:text-6xl lg:text-7xl"' + ls + ">" +
-      esc(t.hero.title1) + " <br>" + esc(t.hero.title2) + "</h1>" +
+      '<span class="deva-hero-line">' + esc(t.hero.title1) + "</span> <br>" + '<span class="deva-hero-line">' + esc(t.hero.title2) + "</span></h1>" +
       '<a' + go("spaces") + ' data-intro="20,1,0.7" class="mt-12 px-8 py-3.5 font-body text-[11px] tracking-[0.2em] uppercase rounded-full bg-white/10 text-white border border-white/35 transition-all duration-500 hover:bg-transparent hover:border-white/60">' + esc(t.hero.cta) + "</a>" +
       "</div></section>";
   }
