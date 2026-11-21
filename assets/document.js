@@ -98,7 +98,7 @@ function ld(t, lang, url) {
     "@graph": [
       { "@type": "WebSite", "@id": SITE + "#website", url: SITE, name: "Centar DEVA", inLanguage: ["sr-Latn", "en"], publisher: { "@id": SITE + "#business" } },
       { "@type": "WebPage", "@id": url + "#page", url, name: `${t.hero.brand} · ${t.hero.title1} ${t.hero.title2}`, description: t.hero.subtitle, inLanguage: lang === "sr" ? "sr-Latn" : "en", isPartOf: { "@id": SITE + "#website" }, about: { "@id": SITE + "#business" }, primaryImageOfPage: SITE + "assets/img/share.jpg" },
-      { "@type": "LocalBusiness", "@id": SITE + "#business", name: "Centar DEVA", url: SITE, logo: SITE + "assets/img/logo.png",
+      { "@type": "LocalBusiness", "@id": SITE + "#business", name: "Centar DEVA", url: SITE, logo: SITE + "assets/img/logo-header.png",
         image: [SITE + "assets/img/share.jpg", SITE + "assets/img/space-1.jpg", SITE + "assets/img/space-2.jpg", SITE + "assets/img/space-3.jpg"],
         description: t.hero.subtitle,
         address: { "@type": "PostalAddress", streetAddress: f.address1, postalCode: "11070", addressLocality: "Novi Beograd", addressRegion: "Beograd", addressCountry: "RS" },
