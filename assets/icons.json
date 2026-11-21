@@ -1,0 +1,5 @@
+{
+  "$about": "The site's icons (favicon.ico, icon-32.png, apple-touch-icon.png, icon-512.png, logo-64.png) are made from this image by tools/build-images.py --icons, which the coding workflow runs after the agent. To change the icons, point source at another image in assets/img (square, at least 512 px). background fills transparent corners where the platform needs it (iOS home screen).",
+  "source": "assets/img/icon-source.png",
+  "background": "#F7F5F0"
+}

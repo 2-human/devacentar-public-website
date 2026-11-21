@@ -157,9 +157,9 @@ ${alt(other)}
 <meta name="twitter:image" content="${SITE}assets/img/share.jpg">
 <meta name="twitter:image:alt" content="${esc(SHARE_ALT[lang])}">
 <meta name="theme-color" content="#2D2824">
-<link rel="icon" href="${base}favicon.ico?v=2" sizes="16x16 32x32 48x48">
-<link rel="icon" type="image/png" sizes="32x32" href="${base}assets/img/icon-32.png?v=2">
-<link rel="apple-touch-icon" sizes="180x180" href="${base}assets/img/apple-touch-icon.png?v=2">
+<link rel="icon" href="${base}favicon.ico?v=3" sizes="16x16 32x32 48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="${base}assets/img/icon-32.png?v=3">
+<link rel="apple-touch-icon" sizes="180x180" href="${base}assets/img/apple-touch-icon.png?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="image" href="${base}assets/img/hero.jpg" imagesrcset="${base}assets/img/opt/hero-640.webp 640w, ${base}assets/img/opt/hero-1024.webp 1024w" imagesizes="100vw" fetchpriority="high">
