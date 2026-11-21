@@ -7,6 +7,11 @@
  * language's page. With "reduce motion" set in the system, nothing animates and scrolling jumps.
  */
 (function () {
+  // shown inside another page (the hub's Live site and previews): load the hub's pick agent next to this file; it stays
+  // silent unless the hub greets it from its own address (assets/pick-agent.js). Visitors never load it.
+  if (window.parent !== window && document.currentScript) {
+    var agent = document.createElement("script"); agent.src = document.currentScript.src.replace(/site\.js(\?.*)?$/, "pick-agent.js"); document.head.appendChild(agent);
+  }
   var EASE = "cubic-bezier(0.2, 0, 0.2, 1)";
   var NAV_SCROLLED = ["bg-[#F7F5F0]/90", "backdrop-blur-md", "border-b", "border-[#EBE8E3]"];
   var REDUCE = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
