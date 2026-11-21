@@ -43,9 +43,12 @@ const STYLE = "[hidden]{display:none!important}" +
   // WCAG AA contrast (4.5:1) for the small labels and notes the Base44 colours drew at 3.0-4.2:1; same hues, darker or lighter
   CONTRAST +
   // header: logo left of the name
-  ".deva-brand{display:inline-flex;align-items:center;gap:10px;flex-shrink:0}.deva-logo{width:30px;height:30px;border-radius:6px;flex-shrink:0}" +
+  ".deva-brand{display:inline-flex;align-items:center;gap:10px;flex-shrink:0}.deva-logo{width:30px;height:30px;flex-shrink:0}" +
+  // the name (brand/wordmark.py): outlines in the link's colour, CENTAR Terakota on the scrolled bar. On phones its
+  // height follows the screen width (about 12.4 times as wide as tall), so it keeps ~14 px before the icons
+  ".deva-name{display:block;height:13px;width:auto;fill:currentColor;overflow:visible}.deva-c-hero{fill:currentColor}.deva-c-bar{fill:#9A4A38}" +
   // phones: logo 26px, name a touch tighter, so the icons keep room
-  "@media (max-width:639px){.deva-brand{gap:8px;letter-spacing:.02em}.deva-logo{width:26px;height:26px;border-radius:5px}}" +
+  "@media (max-width:639px){.deva-brand{gap:8px}.deva-logo{width:26px;height:26px}.deva-name{height:clamp(9.5px,calc((100vw - 256px) / 12.4),11.5px)}}" +
   // header: contact icons and the menu button (36x36 targets, 40x40 for the menu), visible keyboard focus
   ".deva-nav-right{gap:6px}.deva-nav-icons{display:flex;align-items:center;gap:0;margin:0;padding:0;list-style:none}" +
   ".deva-nav-icon{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:transparent;border:0;padding:0;cursor:pointer}" +
@@ -60,8 +63,8 @@ const STYLE = "[hidden]{display:none!important}" +
   "@media (max-width:639px){.deva-nav-icon{width:32px}.deva-burger{width:36px;margin-right:-6px}.deva-nav-right{gap:2px}}" +
   // the smallest phones (320-359px): slightly smaller name and icons so the row keeps air after the name
   // small phones (340-379px, e.g. 360 Android, 375 iPhone SE) and the smallest (under 340px)
-  "@media (max-width:379px){.deva-brand{font-size:16px;gap:7px;letter-spacing:.01em}.deva-logo{width:24px;height:24px;border-radius:4px}.deva-nav-icon{width:29px}.deva-burger{width:34px}}" +
-  "@media (max-width:339px){.deva-brand{font-size:15px;gap:6px;letter-spacing:0}.deva-logo{width:22px;height:22px}.deva-nav-icon{width:27px}.deva-burger{width:32px}}" +
+  "@media (max-width:379px){.deva-brand{gap:7px}.deva-logo{width:24px;height:24px}.deva-name{height:clamp(8px,calc((100vw - 238px) / 12.4),9.5px)}.deva-nav-icon{width:29px}.deva-burger{width:34px}}" +
+  "@media (max-width:339px){.deva-brand{gap:6px}.deva-logo{width:22px;height:22px}.deva-name{height:clamp(7.5px,calc((100vw - 226px) / 12.4),8px)}.deva-nav-icon{width:27px}.deva-burger{width:32px}}" +
   // language selector in the menu
   ".deva-langs{position:absolute;bottom:48px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:14px;font-size:13px;letter-spacing:.2em;text-transform:uppercase}" +
   ".deva-lang{color:rgba(45,40,36,.72);text-decoration:none;padding:10px 4px;transition:color .5s}a.deva-lang:hover{color:#9A4A38}" +
